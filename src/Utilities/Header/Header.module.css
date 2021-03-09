@@ -1,0 +1,45 @@
+/*  A flex container */
+.header {
+    background: var(--brand-color);
+    height: 70px;
+    width: 100%;
+}
+
+.header > h2 {
+    text-align: center;
+    flex: 0 0 20%;
+    color: #fff;
+}
+
+.searchContainer {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 0 0 50%;
+}
+.searchContainer > img {
+    vertical-align: middle;
+}
+.searchContainer > input {
+    border-width: 0;
+    height: 24px;
+    background: transparent;
+    margin: auto 10px;
+    width: 90%;
+    outline: none;
+}
+.userData {
+    padding-right: 40px;
+}
+.userData > * {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.userData > img {
+    margin-right: 10px;
+}
+.userData > h5  {
+    color: #fff;
+    margin-right: 40px;
+}
