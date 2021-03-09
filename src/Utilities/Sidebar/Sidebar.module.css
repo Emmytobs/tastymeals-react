@@ -1,0 +1,41 @@
+.sidebarContainer {
+    position: absolute;
+    background: var(--bg-color);
+    border-right: 1px solid #ccc;
+    width: 15%;
+    left: 0;
+    top: 0;
+}
+
+.listContainer {
+    width: 100%;
+    margin-top: 60px;
+}
+
+.listItem {
+    cursor: pointer;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.listItem > h5 { 
+    color: var(--text-color);
+    text-align: center;
+    position: relative;
+    z-index: 20;
+    font-family: 'Roboto', sans-serif;
+}
+
+.listItem > .active {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    height: 100%;
+    width: 60%;
+    transform: translatex(-50%);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: var(--brand-color);
+    padding: 5px 0;
+    z-index: 10;
+}
