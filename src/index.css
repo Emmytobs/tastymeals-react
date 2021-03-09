@@ -1,5 +1,6 @@
 :root {
   --brand-color: #FD8867;
+  --color-mode-transition: background .5s ease-in-out, color 1s ease-in-out;
 
   --light-bg: #fbfbfb;
   --light-container-bg: #fff;
@@ -52,7 +53,7 @@ p {
   transition: background .5s ease-in-out, color 1s ease-in-out;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
   color: var(--heading);
   transition: background .5s ease-in-out, color 1s ease-in-out;
   margin: 0;
@@ -75,16 +76,21 @@ h4 {font-size: 1.563rem;}
 
 h5 {font-size: 1.25rem;}
 
-small, .text_small {font-size: 0.8rem;}
+h6 {font-size: 1.1rem;}
+
+small, .text-small {font-size: 0.8rem;}
 
 /* Utlity classes */
-.text_bold {
+.text-bold {
   font-weight: bold;
 }
-
-.inline_link {
+.text-highlight {
+  color: var(--brand-color);
+}
+.inline-link {
   color: var(--brand-color);
   text-decoration: underline;
+  cursor: pointer;
 }
 .icon-size {
   width: 24px;

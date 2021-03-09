@@ -1,0 +1,13 @@
+.appWrapper {
+    position: relative;
+    height: auto;
+}
+
+.appContainer {
+    padding: 40px 20px;
+    left: 15%;
+    width: 70%;
+    margin-top: 70px;
+    position: absolute;
+    margin-left: auto;
+}

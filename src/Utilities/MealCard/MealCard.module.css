@@ -1,0 +1,23 @@
+.mealContainer {
+    background: var(--container);
+    color: var(--text-color);
+    transition: var(--color-mode-transition);
+    width: 250px;
+    padding: 15px;
+    border-radius: 5px;
+}
+.mealImageContainer {
+    border-bottom: 1px solid #ccc;
+}
+.mealImageContainer > img {
+    width: 250px;
+    height: 250px;
+}
+.name_rating {
+    padding-top: 20px;
+}
+.details {
+    line-height: 25px;
+    margin-top: 20px;
+    text-align: left;
+}

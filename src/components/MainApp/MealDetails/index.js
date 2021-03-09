@@ -1,0 +1,1 @@
+export { MealDetails as default } from './MealDetails'

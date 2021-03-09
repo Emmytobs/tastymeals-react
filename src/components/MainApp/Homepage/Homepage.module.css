@@ -1,0 +1,30 @@
+.section {
+    margin-bottom: 40px;
+}
+
+.sectionTitle > * {
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.tabs {
+    margin-top: 10px;
+}
+
+.tab {
+    cursor: pointer;
+    background: var(--container);
+    color: var(--text-color);
+    transition: var(--color-mode-transition);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 10px
+}
+
+.mealWrapper {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 30px;
+}

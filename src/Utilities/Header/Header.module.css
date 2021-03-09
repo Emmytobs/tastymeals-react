@@ -1,18 +1,21 @@
 /*  A flex container */
 .header {
     background: var(--brand-color);
+    position: fixed;
     height: 70px;
     width: 100%;
+    z-index: 99;
 }
 
 .header > h2 {
     text-align: center;
     flex: 0 0 20%;
-    color: #fff;
 }
 
 .searchContainer {
-    background-color: #fff;
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background .5s ease-in-out, color 1s ease-in-out;
     padding: 10px;
     border-radius: 5px;
     flex: 0 0 50%;
@@ -24,8 +27,9 @@
     border-width: 0;
     height: 24px;
     background: transparent;
+    color: var(--text-color);
     margin: auto 10px;
-    width: 90%;
+    width: 89%;
     outline: none;
 }
 .userData {
@@ -40,6 +44,5 @@
     margin-right: 10px;
 }
 .userData > h5  {
-    color: #fff;
     margin-right: 40px;
 }
