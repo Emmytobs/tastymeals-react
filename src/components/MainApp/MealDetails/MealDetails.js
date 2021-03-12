@@ -3,10 +3,14 @@ import { PrimaryButton } from '../../../Utilities/Buttons'
 import styles from './MealDetails.module.css'
 
 import mealImg from '../../../Utilities/MealCard/meal-image.png'
+import Header from '../../../Utilities/Header/Header'
+import Container from '../../../Utilities/Container'
 // src\Utilities\MealCard\meal-image.png
 export function MealDetails() {
     return (
         <>
+        <Header />
+        <Container>
             <div className={'d-flex justify-between align-center ' + styles.mealDetailsContainer}>
                 <div className={styles.imageContainer}>
                     <img src={mealImg} alt="Meal Img" width="300px" height="300px" />
@@ -38,6 +42,7 @@ export function MealDetails() {
                     Ratings & Reviews
                 </div>
             </div>
+            </Container>
         </>
     )
 }

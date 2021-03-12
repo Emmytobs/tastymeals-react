@@ -1,11 +1,18 @@
 import React from 'react'
+import Container from '../../../Utilities/Container';
+import Header from '../../../Utilities/Header/Header';
+// import axios from 'axios';
+
 import MealCard from '../../../Utilities/MealCard';
 
 import styles from './Homepage.module.css';
 
-export function Homepage() {
+export function Homepage(props) {
+
     return (
         <>
+        <Header />
+        <Container {...props}>
             <section className={styles.section}>
                 <div className={styles.sectionTitle}>
                     <h4>Categories</h4> <span>|</span> <span className='inline-link'>View all</span>
@@ -24,14 +31,6 @@ export function Homepage() {
                 </div>
                 
                 <div className={styles.mealWrapper}>
-                   <MealCard 
-                    name="Chicken Paella Rice"
-                    averageRating={4.5}
-                    ratingCount={21}
-                    restaurantName="Kobis Foods"
-                    price={2500}
-                    details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                   />
                    <MealCard 
                     name="Chicken Paella Rice"
                     averageRating={4.5}
@@ -108,6 +107,7 @@ export function Homepage() {
                     />
                 </div>
             </section> 
+        </Container>
         </>
     )
 }

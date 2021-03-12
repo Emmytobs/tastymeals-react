@@ -1,0 +1,28 @@
+
+.ordersContainer {
+    margin-top: 20px;
+    margin-left: 6%;
+    padding: 20px;
+}
+
+.filterOrdersContainer {
+    margin-top: 15px;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.filterOrdersContainer > * {
+    margin-right: 30px;
+}
+.tabs {
+    border-bottom: 1px solid #ccc;
+}
+.tabs > span {
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.tableContainer {
+    width: 100%;
+}

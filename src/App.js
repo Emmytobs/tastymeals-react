@@ -1,19 +1,19 @@
-import Header from './Utilities/Header';
-import Sidebar from './Utilities/Sidebar';
-import MainApp from './components/MainApp'
+import { Route, Switch } from 'react-router-dom';
 
-import styles from './App.module.css'
+import ProtectedRoute from './components/ProtectedRoute';
+import MainApp from './components/MainApp'
+import Accounts from './components/Accounts/Accounts';
+
+// import styles from './App.module.css'
 
 function App() {
   return (
     <>    
-      <Header />
-      <div className={styles.appWrapper}>
-        <div className={styles.appContainer}>
-          <MainApp />
-        </div>
-        <Sidebar />
-      </div>
+    <Switch>
+      <Route path="/account" component={Accounts} />
+      {/* <Route path="/app" component={MainApp} /> */}
+      <ProtectedRoute path="/app" component={MainApp} />
+    </Switch>
     </>
   );
 }

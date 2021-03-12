@@ -1,0 +1,7 @@
+.addMealContainer {
+    width: 40%;
+}
+
+.addMealContainer form > * {
+    margin-bottom: 20px;
+}

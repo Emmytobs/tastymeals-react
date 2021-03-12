@@ -1,0 +1,32 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12%;
+    min-height: 100vh;
+    transition: all .2s ease-in-out;
+    box-shadow: 10px 0px 200px 20px rgba(0,0,0,0.7);
+}
+
+.listMenu {
+    margin-top: 100px;
+}
+.listMenu > p {
+    text-align: right;
+}
+
+.listMenu > a {
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.sidebar.closed {
+    width: 3%;
+    box-shadow: none;
+}
+.sidebar.closed .listItem > p {
+    display: none
+}

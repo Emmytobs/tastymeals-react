@@ -46,3 +46,13 @@
 .userData > h5  {
     margin-right: 40px;
 }
+
+.cartListContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    box-shadow: -10px 0px 140px 0px rgba(0,0,0,0.8);
+    min-height: 100vh;
+    max-height: 100vh;
+}

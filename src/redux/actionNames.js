@@ -1,0 +1,3 @@
+export const SAVE_TOKENS = 'SAVE_TOKENS'
+export const SAVE_USER_DATA = 'SAVE_USER_DATA'
+export const SAVE_MEAL_BY_ADMIN = 'SAVE_MEAL_BY_ADMIN'
