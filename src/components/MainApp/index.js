@@ -4,7 +4,7 @@ import { Route, useRouteMatch, Switch, Redirect } from 'react-router';
 
 // Components under /app
 import Homepage from './Homepage';
-import MealDetails from './MealDetails';
+import MealDetails from './MealDetails/MealDetails';
 import RestaurantDetails from './RestaurantDetails';
 import AdminPage from '../AdminPage/AdminPage';
 
@@ -18,9 +18,11 @@ function MainApp(props) {
             <Route path={url} exact component={Homepage} />
             <Route path={`${url}/meal/:mealId`} exact component={MealDetails} />
             <Route path={`${url}/restaurant/:restaurantId`} exact component={RestaurantDetails} />
-            {props.type === 'RESTAURANT_ADMIN' ? 
-            <Route path={`${url}/admin`} component={AdminPage} /> : 
-            <Redirect to="/account/login" />}
+            {
+            props.type === 'RESTAURANT_ADMIN' ? 
+                <Route path={`${url}/admin`} component={AdminPage} /> : 
+                <Redirect to="/account/login" />
+            }
         </Switch>
         </>
     )
