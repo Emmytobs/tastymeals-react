@@ -8,10 +8,11 @@ import filter from './icons/filter.png';
 import dp from './icons/dp.png';
 
 import styles from './Header.module.css';
+import { removeMealFromCart } from '../../redux/dispatchers';
 
 function Header(props) {
     const [overlay, setOverlay] = useState(false);
-    const toggleOverlay = () => setOverlay(!overlay)
+    const toggleCart = () => setOverlay(!overlay)
 
     return (
         <header className={'d-flex justify-between align-center ' + styles.header}>
@@ -30,20 +31,37 @@ function Header(props) {
                         <img src={dp} alt="dp" className="dp-size" />
                     }
                     <h5>{props.firstname} {props.lastname}</h5>
-                    <img src={cart} alt="cart" className="pointer icon-size" onClick={toggleOverlay} />
+                    <img src={cart} alt="cart" className="pointer icon-size" onClick={toggleCart} />
                 </div>
             {/* </div> */}
-            {/* <Overlay>
-                <div className={'container ' + styles.cartListContainer}></div>
-            </Overlay> */}
+            {overlay && <Overlay>
+                <div className={'container ' + styles.cartListContainer}>
+                    <button onClick={toggleCart}>Close</button>
+                    <h2>Cart</h2>
+                    <div className={styles.cartItems}>
+                        {props.cart.map(item => (
+                            <div key={item.id}>
+                                <p>{item.name}</p>
+                                <p>{item.price}</p>
+                                <span className="inline-link">{item.restaurantName}</span> <br />
+                                <span>{item.averageRating} ({item.ratingCount})</span>
+                                <button onClick={() => removeMealFromCart(item.id, props.dispatch)}>Remove</button>
+                            </div>
+                        ))}
+                        {props.cart.length && <button>Checkout</button>}
+                        {!props.cart.length && <p>No item in cart</p>}
+                    </div>
+                </div>
+            </Overlay>}
         </header>
     )
 }
 
-const mapStateToProps = ({user}) => ({ 
-    profileImage: user.profile_image, 
-    firstname: user.firstname, 
-    lastname: user.lastname 
+const mapStateToProps = (state) => ({ 
+    profileImage: state.user.profile_image, 
+    firstname: state.user.firstname, 
+    lastname: state.user.lastname,
+    cart: state.cart
 })
 
 export default connect(mapStateToProps, null)(Header);

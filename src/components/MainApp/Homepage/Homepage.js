@@ -3,7 +3,7 @@ import Container from '../../../Utilities/Container';
 import Header from '../../../Utilities/Header/Header';
 // import axios from 'axios';
 
-import MealCard from '../../../Utilities/MealCard';
+import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import styles from './Homepage.module.css';
 
@@ -31,30 +31,20 @@ export function Homepage(props) {
                 </div>
                 
                 <div className={styles.mealWrapper}>
-                   <MealCard 
-                    name="Chicken Paella Rice"
-                    averageRating={4.5}
-                    ratingCount={21}
-                    restaurantName="Kobis Foods"
-                    price={2500}
-                    details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                   />
-                   <MealCard 
-                    name="Chicken Paella Rice"
-                    averageRating={4.5}
-                    ratingCount={21}
-                    restaurantName="Kobis Foods"
-                    price={2500}
-                    details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                   />
-                   <MealCard 
-                    name="Chicken Paella Rice"
-                    averageRating={4.5}
-                    ratingCount={21}
-                    restaurantName="Kobis Foods"
-                    price={2500}
-                    details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                   />
+                   {
+                       [1,2,3].map((item, index) => (
+                           <MealCard
+                            key={index}
+                            id={index}
+                            name="Chicken Paella Rice"
+                            averageRating={4.5}
+                            ratingCount={21}
+                            restaurantName="Kobis Foods"
+                            price={2500}
+                            details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
+                           />
+                       ))
+                   }
 
                 </div>
             </section>

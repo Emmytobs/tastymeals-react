@@ -1,0 +1,8 @@
+.pageTitle {
+    background: var(--brand-color);
+    padding: 70px 0;
+    height: 100px;
+}
+.pageTitle > * {
+    text-align: center
+}

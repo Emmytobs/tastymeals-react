@@ -1,12 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { PrimaryButton } from '../../../Utilities/Buttons'
 import styles from './MealDetails.module.css'
+
+import { addMealToCart } from '../../../redux/dispatchers'
 
 import mealImg from '../../../Utilities/MealCard/meal-image.png'
 import Header from '../../../Utilities/Header/Header'
 import Container from '../../../Utilities/Container'
 // src\Utilities\MealCard\meal-image.png
-export function MealDetails() {
+function MealDetails(props) {
+    const addToCart = () => {
+        // First, make sure the meal is coming from the db
+        // addMealToCart()
+    }
+
     return (
         <>
         <Header />
@@ -22,7 +30,8 @@ export function MealDetails() {
                     <div className={'d-flex justify-between align-center ' + styles.price_addToCart}>
                         <h5>2,500</h5>
                         <div className={styles.buttons}>
-                            <PrimaryButton>Add to cart</PrimaryButton>
+
+                            <PrimaryButton onClick={addToCart} >Add to cart</PrimaryButton>
                         </div>
                     </div>
                 </div>
@@ -46,3 +55,7 @@ export function MealDetails() {
         </>
     )
 }
+
+const mapStateToProps = (state) => ({ cart: state.cart })
+
+export default connect(mapStateToProps, null)(MealDetails)

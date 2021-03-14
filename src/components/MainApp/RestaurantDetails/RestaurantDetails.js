@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './RestaurantDetails.module.css';
-import MealCard from '../../../Utilities/MealCard';
+import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import restaurantImg from './restaurantImg.png'
 import Header from '../../../Utilities/Header/Header';

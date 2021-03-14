@@ -21,25 +21,9 @@
 .name_rating {
     padding-top: 20px;
 }
-.mealCountContainer {
-    padding: 5px 20px;
-    border-radius: 5px;
-    border: 1px solid var(--brand-color);
+.restaurantName {
+    display: inline;
 }
-.mealCountContainer > button {
-    background: transparent;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    outline: none;
-}
-.mealCountContainer > span {
-    display: inline-block;
-    margin: auto 7px;
-    color: var(--brand-color);
-    font-weight: 700;
-}
-
 .details {
     line-height: 25px;
     margin-top: 20px;

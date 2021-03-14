@@ -1,1 +1,0 @@
-export { MealCard as default } from './MealCard';

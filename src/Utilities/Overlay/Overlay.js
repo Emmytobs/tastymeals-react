@@ -5,7 +5,7 @@ export function Overlay(props) {
     const handleClick = (e) => {
         const { id } = e.target;
         if (id === 'overlay') {
-            props.closeOverlayHandler(false)
+            props.closeOverlayHandler && props.closeOverlayHandler(false)
         }
     }
     return (

@@ -6,9 +6,10 @@ export const initialState = {
     refreshToken: '',
     user: {},
     cart: [],
-    mealsByAdmin: [],
     orders: '',
     favorites: '',
+    mealsByAdmin: [],
+    adminRestaurantProfile: ''
 }
 
 function loadStoreInLocalStorage() {

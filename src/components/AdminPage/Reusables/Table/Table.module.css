@@ -17,6 +17,7 @@
 
 .table td,
 .table th {
-    text-align: left;
-    width: 20%;
+    padding: 10px 20px;
+    text-align: center;
+    width: 12%;
 }

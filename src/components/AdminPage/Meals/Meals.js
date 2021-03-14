@@ -14,31 +14,32 @@ import styles from './Meals.module.css'
 
 function Meals(props) {
     const [toggleOverlay, setToggleOverlay] = useState(false)
-    const [searchMealsInput, setSearchMealsInput] = useState('')
+    // const [searchMealsInput, setSearchMealsInput] = useState('')
 
-    const [mealsInLocalState, setMealsInLocalState] = useState(props.meals);
+    // const [mealsInLocalState, setMealsInLocalState] = useState(props.meals);
 
-    const filterMeals = (e) => {
-        const { value } = e.target;
-        setSearchMealsInput(value);   
-    }
+    // const filterMeals = (e) => {
+    //     const { value } = e.target;
+    //     setSearchMealsInput(value);   
+    // }
 
-    useEffect(() => {
-        if (searchMealsInput.length) {
-            const filteredMeals = mealsInLocalState.filter(meal => {
-                return meal.name.toLocaleLowerCase().indexOf(searchMealsInput.toLocaleLowerCase()) !== -1;
-            })
-            return setMealsInLocalState(filteredMeals);
-        }
-        setMealsInLocalState(props.meals)
-    }, [searchMealsInput])
+    // useEffect(() => {
+    //     if (searchMealsInput.length) {
+    //         const filteredMeals = mealsInLocalState.filter(meal => {
+    //             return meal.name.toLocaleLowerCase().indexOf(searchMealsInput.toLocaleLowerCase()) !== -1;
+    //         })
+    //         return setMealsInLocalState(filteredMeals);
+    //     }
+    //     setMealsInLocalState(props.meals)
+    // }, [searchMealsInput])
 
     return (
         <div className={styles.mealsContainer}>
             <h2 className={styles.pageTitle}>Meals</h2>
             <div className={'d-flex justify-start align-center ' + styles.filterMealsContainer}>
                 {/* <div> */}
-                    <Input type="search" placeholder="Search meals" onChange={filterMeals} value={searchMealsInput} />
+                {/* onChange={filterMeals} value={searchMealsInput}  */}
+                    <Input type="search" placeholder="Search meals" />
                 {/* </div> */}
                 <select>
                     <option disabled selected>Status</option>
@@ -70,42 +71,35 @@ function Meals(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TD className={styles.mealId}>1</TD>
-                            <TD>
-                                <img src="*" alt="Meal img" width="70px" height="70px" />
-                            </TD>
-                            <TD>Chicken Paella Rice</TD>
-                            <TD>2500</TD>
-                            <TD className={styles.mealDescription}>Lorem ipsum, dolor sit amet consectetur adipisicing.</TD>
-                            <TD>15 Jul 2020</TD>
-                            <TD>7</TD>
-                            <TD>4 (21)</TD>
-                            <TD>Drinks</TD>
-                        </TableRow>
-                        {mealsInLocalState.map((meal, index) => (
-                            <TableRow key={index}>
-                                <TD className={styles.mealId}>{meal.mealid}</TD>
-                                <TD>
-                                    <img src={meal.image} alt="Meal img" width="70px" height="70px" className={styles.mealImage} />
-                                </TD>
-                                <TD>{meal.name}</TD>
-                                <TD>{meal.price}</TD>
-                                <TD className={styles.mealDescription}>{meal.description}</TD>
-                                <TD>{meal.createdat}</TD>
-                                <TD>{meal.order_count}</TD>
-                                <TD>{meal.average_rating} ({meal.rating_count})</TD>
-                                <TD>{meal.category}</TD>
-                            </TableRow>
-                        ))}
+                        {
+                            props.meals.length &&
+                                props.meals.map((meal, index) => (
+                                    <TableRow key={index}>
+                                        <TD className={styles.mealId}>{meal.mealid}</TD>
+                                        <TD>
+                                            <img src={meal.image} alt="Meal img" width="70px" height="70px" className={styles.mealImage} />
+                                        </TD>
+                                        <TD>{meal.name}</TD>
+                                        <TD>{meal.price}</TD>
+                                        <TD className={styles.mealDescription}>{meal.description}</TD>
+                                        <TD>{meal.createdat}</TD>
+                                        <TD>{meal.order_count}</TD>
+                                        <TD>{meal.average_rating} ({meal.rating_count})</TD>
+                                        <TD>{meal.category}</TD>
+                                    </TableRow>
+                                ))
+                        }
                     </TableBody>
                 </Table>
+                {!props.meals.length && (
+                    <h5>There are no meals to display</h5>
+                )}
             </div>
             {!props.restaurantId &&
                 (
                     <Overlay>
                         You have not created a restaurant profile yet. 
-                        <Link to="/app/admin/create-restaurant-profile  ">
+                        <Link to="/app/admin/create-restaurant-profile">
                             <PrimaryButton>Create one</PrimaryButton>
                         </Link>
                     </Overlay>
