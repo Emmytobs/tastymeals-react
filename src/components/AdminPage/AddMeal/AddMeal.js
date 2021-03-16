@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { saveMealByAdmin } from '../../../redux/dispatchers'
+import { saveMeals } from '../../../redux/dispatchers'
 
 import axios from 'axios'
 import { Formik } from 'formik';
@@ -12,12 +12,7 @@ import styles from './AddMeal.module.css';
 
 function AddMeal(props) {
     const [formData, setFormData] = React.useState(null);
-    const initialValues = {
-        name: '',
-        description: '',
-        price: '',
-        category: ''
-    }
+ 
     // const validationSchema = null;
     const submitForm = async (values) => {
         try {
@@ -40,11 +35,11 @@ function AddMeal(props) {
                 );
                 if(response.status === 201) {
                     const newMeal = response.data.data;
-                    saveMealByAdmin(newMeal, props.dispatch)
+                    saveMeals(newMeal, 'ADMIN', props.dispatch)
                     console.log(response.data.message)
                 }
             } catch (error) {
-                console.log(error)
+                console.log(error.response)
             }
         } catch (error) {
             if (!error.response) {
@@ -65,7 +60,7 @@ function AddMeal(props) {
     return (
         <div className={styles.addMealContainer}>
             <Formik
-                initialValues={initialValues}
+                initialValues={{  name: '', description: '', price: '', category: '' }}
                 onSubmit={(values) => {
                     // console.log(values)
                     submitForm(values)
@@ -94,8 +89,10 @@ function AddMeal(props) {
                             value={values.price} 
                             onChange={handleChange} />
                         <select name="category" value={values.category} onChange={handleChange}>
-                            <option value="category 1">category 1</option>
-                            <option value="category 2">category 2</option>
+                            <option>Choose Category</option>
+                            {props.foodCategories.map((category, index) => (
+                                <option key={index} value={category.categoryid}>{category.categoryname}</option>
+                            ))}
                         </select>
 
                         <PrimaryButton type="submit">Add meal</PrimaryButton>
@@ -106,6 +103,6 @@ function AddMeal(props) {
     )
 }
 
-const mapStateToProps = (state) => ({ accessToken: state.accessToken })
+const mapStateToProps = (state) => ({ accessToken: state.accessToken, foodCategories: state.foodCategories })
 
 export default connect(mapStateToProps, null)(AddMeal)

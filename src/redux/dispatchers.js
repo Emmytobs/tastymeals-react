@@ -1,10 +1,11 @@
 import {
     SAVE_TOKENS,
     SAVE_USER_DATA,
-    SAVE_MEAL_BY_ADMIN,
+    SAVE_MEALS,
     SAVE_ADMIN_RESTAURANT_PROFILE,
     ADD_MEAL_TO_CART,
-    REMOVE_MEAL_FROM_CART
+    REMOVE_MEAL_FROM_CART,
+    SAVE_FOOD_CATEGORIES
 } from './actionNames'
 
 export function saveTokens(payload, dispatch) {
@@ -15,8 +16,8 @@ export function saveUserData(payload, dispatch) {
     dispatch({ type: SAVE_USER_DATA, payload })
 }
 
-export function saveMealByAdmin(payload, dispatch) {
-    dispatch({ type: SAVE_MEAL_BY_ADMIN, payload })
+export function saveMeals(payload, mealCategory, dispatch) {
+    dispatch({ type: SAVE_MEALS, mealCategory, payload })
 }
 
 export function saveAdminRestaurantProfile(payload, dispatch) {
@@ -29,4 +30,8 @@ export function addMealToCart(payload, dispatch) {
 
 export function removeMealFromCart(payload, dispatch) {
     dispatch({ type: REMOVE_MEAL_FROM_CART, payload })
+}
+
+export function saveFoodCategories(payload, dispatch) {
+    dispatch({ type: SAVE_FOOD_CATEGORIES, payload })
 }

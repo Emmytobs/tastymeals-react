@@ -10,6 +10,8 @@ import { Table, TableHead, TableBody, TableRow, TD, TH } from '../Reusables/Tabl
 import { Input } from '../../../Utilities/Form'
 
 import styles from './Meals.module.css'
+import axios from 'axios'
+import { saveMeals } from '../../../redux/dispatchers'
 
 
 function Meals(props) {
@@ -33,9 +35,32 @@ function Meals(props) {
     //     setMealsInLocalState(props.meals)
     // }, [searchMealsInput])
 
+    const fetchMeals = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/admin`, { 
+                headers: { 'Authorization': 'Bearer ' + props.accessToken } 
+            })
+            console.log(response)
+            if (response.status === 200) {
+                saveMeals(response.data.data, 'ADMIN', props.dispatch)
+            }
+            
+        } catch (error) {
+            if(!error.response) {
+                console.log('No Internet')
+            }
+            console.log(error.response)
+        }
+    }
+
+    useEffect(() => {
+        fetchMeals()
+    }, [])
+
     return (
         <div className={styles.mealsContainer}>
             <h2 className={styles.pageTitle}>Meals</h2>
+            <p>by {props.restaurantProfile.name}</p>
             <div className={'d-flex justify-start align-center ' + styles.filterMealsContainer}>
                 {/* <div> */}
                 {/* onChange={filterMeals} value={searchMealsInput}  */}
@@ -77,9 +102,9 @@ function Meals(props) {
                                     <TableRow key={index}>
                                         <TD className={styles.mealId}>{meal.mealid}</TD>
                                         <TD>
-                                            <img src={meal.image} alt="Meal img" width="70px" height="70px" className={styles.mealImage} />
+                                            <img src={meal.mealimage} alt="Meal img" width="70px" height="70px" className={styles.mealImage} />
                                         </TD>
-                                        <TD>{meal.name}</TD>
+                                        <TD>{meal.mealname}</TD>
                                         <TD>{meal.price}</TD>
                                         <TD className={styles.mealDescription}>{meal.description}</TD>
                                         <TD>{meal.createdat}</TD>
@@ -95,7 +120,7 @@ function Meals(props) {
                     <h5>There are no meals to display</h5>
                 )}
             </div>
-            {!props.restaurantId &&
+            {!props.restaurantProfile.restaurantid &&
                 (
                     <Overlay>
                         You have not created a restaurant profile yet. 
@@ -114,6 +139,6 @@ function Meals(props) {
     )
 }
 
-const mapStateToProps = (state) => ({ meals: state.mealsByAdmin, restaurantId: state.adminRestaurantProfile.restaurantid })
+const mapStateToProps = (state) => ({ accessToken: state.accessToken, meals: state.meals['ADMIN'], restaurantProfile: state.adminRestaurantProfile })
 
 export default connect(mapStateToProps, null)(Meals);

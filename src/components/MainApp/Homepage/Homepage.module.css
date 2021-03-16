@@ -15,11 +15,15 @@
     cursor: pointer;
     background: var(--container);
     color: var(--text-color);
-    transition: var(--color-mode-transition);
+    transition: all .2s ease-out;
     padding: 10px 20px;
     border-radius: 50px;
     display: inline-block;
     margin-right: 10px
+}
+.tab:hover {
+    background: var(--brand-color);
+    color: #fff
 }
 
 .mealWrapper {

@@ -3,19 +3,51 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import Container from '../../../Utilities/Container';
 import Header from '../../../Utilities/Header/Header';
-// import axios from 'axios';
+import { saveFoodCategories, saveMeals } from '../../../redux/dispatchers'
 
 import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import styles from './Homepage.module.css';
 
 function Homepage(props) {
-
     const fetchFoodCategories = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/category`, { headers: 'Bearer '+ props.accessToken });
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/category`, { 
+                headers: { 'Authorization': 'Bearer '+ props.accessToken }
+            });
+            saveFoodCategories(response.data.data, props.dispatch);
         } catch (error) {
-            
+            console.log(error)
+        }
+    }
+
+    const fetchPopularMeals = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/all?limit=10&offset=0&order_by=order_count:desc`, {
+                headers: { 'Authorization': 'Bearer '+ props.accessToken }
+            });
+            const popularMeals = response.data.data;
+            saveMeals(popularMeals, 'POPULAR', props.dispatch)
+        } catch (error) {
+            if (!error.response) {
+                console.log('No internet')
+            }
+            console.log(error.response)
+        }
+    }
+
+    const fetchTopRatedMeals = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/all?limit=10&offset=0&order_by=average_rating:desc`, {
+                headers: { 'Authorization': 'Bearer '+ props.accessToken }
+            });
+            const topRatedMeals = response.data.data;
+            saveMeals(topRatedMeals, 'TOP RATED', props.dispatch)
+        } catch (error) {
+            if(!error.response) {
+                console.log('No internet')
+            }
+            console.log(error.response)
         }
     }
 
@@ -23,7 +55,9 @@ function Homepage(props) {
         // Fetch food categories
         fetchFoodCategories()
         // Fetch most popular meals
+        fetchPopularMeals()
         // Fetch most popular restaurants
+        fetchTopRatedMeals()
     }, []);
 
     return (
@@ -31,14 +65,8 @@ function Homepage(props) {
         <Header />
         <Container {...props}>
             <section className={styles.section}>
-                <div className={styles.sectionTitle}>
-                    <h4>Categories</h4> <span>|</span> <span className='inline-link'>View all</span>
-                </div>
                 <div className={styles.tabs}>
-                    <Tab active>Drinks</Tab>
-                    <Tab>Protein</Tab>
-                    <Tab>Africana</Tab>
-                    <Tab>Veggies</Tab>
+                    { props.foodCategories.map((category, index) => <Tab key={index}>{category.categoryname}</Tab> ) }
                 </div>
             </section>
 
@@ -50,16 +78,17 @@ function Homepage(props) {
 
                 <div className={styles.mealWrapper}>
                     {
-                        [1,2,3].map((item, index) => (
+                        props.meals['POPULAR'].map((meal, index) => (
                             <MealCard
                                 key={index}
                                 id={index}
-                                name="Chicken Paella Rice"
-                                averageRating={4.5}
-                                ratingCount={21}
-                                restaurantName="Kobis Foods"
-                                price={2500}
-                                details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
+                                image={meal.mealimage}
+                                name={meal.mealname}
+                                averageRating={meal.average_rating}
+                                ratingCount={meal.rating_count}
+                                restaurantName={meal.name}
+                                price={meal.price}
+                                details={meal.description}
                             />
                         ))
                     }
@@ -69,25 +98,25 @@ function Homepage(props) {
 
             <section className={styles.section}>
                 <div className={styles.sectionTitle}>
-                    <h2>To Rated</h2> <span>|</span> <span className='inline-link'>View all</span>
+                    <h2>Top Rated</h2> <span>|</span> <span className='inline-link'>View all</span>
                 </div>
                 
                 <div className={styles.mealWrapper}>
-                {
-                    [1,2,3].map((item, index) => (
-                        <MealCard
-                            key={index}
-                            id={index}
-                            name="Chicken Paella Rice"
-                            averageRating={4.5}
-                            ratingCount={21}
-                            restaurantName="Kobis Foods"
-                            price={2500}
-                            details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                        />
-                    ))
-                }
-
+                    {
+                        props.meals['TOP RATED'].map((meal, index) => (
+                            <MealCard
+                                key={index}
+                                id={index}
+                                image={meal.mealimage}
+                                name={meal.mealname}
+                                averageRating={meal.average_rating}
+                                ratingCount={meal.rating_count}
+                                restaurantName={meal.name}
+                                price={meal.price}
+                                details={meal.description}
+                            />
+                        ))
+                    }
                 </div>
             </section>
         </Container>
@@ -97,7 +126,9 @@ function Homepage(props) {
 
 const mapStateToProps = (state) => (
     {
-        accessToken: state.accessToken
+        accessToken: state.accessToken,
+        foodCategories: state.foodCategories,
+        meals: state.meals
     }
 )
 

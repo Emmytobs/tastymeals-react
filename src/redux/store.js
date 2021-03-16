@@ -8,16 +8,17 @@ export const initialState = {
     cart: [],
     orders: '',
     favorites: '',
+    foodCategories: [],
     meals: {
         'POPULAR': [],
         'TOP RATED': [],
-        'SEARCHED': []
+        'SEARCHED': [],
+        'ADMIN': [],
     },
     restaurants: {
         'TOP RATED': [],
         'SEARCHED': []
     },
-    mealsByAdmin: [],
     adminRestaurantProfile: ''
 }
 
