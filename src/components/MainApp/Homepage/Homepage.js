@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import {connect} from 'react-redux';
+import axios from 'axios';
 import Container from '../../../Utilities/Container';
 import Header from '../../../Utilities/Header/Header';
 // import axios from 'axios';
@@ -7,7 +9,22 @@ import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import styles from './Homepage.module.css';
 
-export function Homepage(props) {
+function Homepage(props) {
+
+    const fetchFoodCategories = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/category`, { headers: 'Bearer '+ props.accessToken });
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(() => {
+        // Fetch food categories
+        fetchFoodCategories()
+        // Fetch most popular meals
+        // Fetch most popular restaurants
+    }, []);
 
     return (
         <>
@@ -24,16 +41,41 @@ export function Homepage(props) {
                     <Tab>Veggies</Tab>
                 </div>
             </section>
-            
+
+
             <section className={styles.section}>
                 <div className={styles.sectionTitle}>
-                    <h4>Special Offers</h4> <span>|</span> <span className='inline-link'>View all</span>
+                    <h2>Most popular</h2> <span>|</span> <span className='inline-link'>View all</span>
+                </div>
+
+                <div className={styles.mealWrapper}>
+                    {
+                        [1,2,3].map((item, index) => (
+                            <MealCard
+                                key={index}
+                                id={index}
+                                name="Chicken Paella Rice"
+                                averageRating={4.5}
+                                ratingCount={21}
+                                restaurantName="Kobis Foods"
+                                price={2500}
+                                details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
+                            />
+                        ))
+                    }
+                </div>
+            </section>
+                
+
+            <section className={styles.section}>
+                <div className={styles.sectionTitle}>
+                    <h2>To Rated</h2> <span>|</span> <span className='inline-link'>View all</span>
                 </div>
                 
                 <div className={styles.mealWrapper}>
-                   {
-                       [1,2,3].map((item, index) => (
-                           <MealCard
+                {
+                    [1,2,3].map((item, index) => (
+                        <MealCard
                             key={index}
                             id={index}
                             name="Chicken Paella Rice"
@@ -42,65 +84,24 @@ export function Homepage(props) {
                             restaurantName="Kobis Foods"
                             price={2500}
                             details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                           />
-                       ))
-                   }
+                        />
+                    ))
+                }
 
                 </div>
             </section>
-
-            <section className={styles.section}>
-                <div className={styles.sectionTitle}>
-                    <h4>Most popular</h4> <span>|</span> <span className='inline-link'>View all</span>
-                </div>
-
-                <div className={styles.mealWrapper}>
-                    <MealCard 
-                        name="Chicken Paella Rice"
-                        averageRating={4.5}
-                        ratingCount={21}
-                        restaurantName="Kobis Foods"
-                        price={2500}
-                        details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                    />
-                    <MealCard 
-                        name="Chicken Paella Rice"
-                        averageRating={4.5}
-                        ratingCount={21}
-                        restaurantName="Kobis Foods"
-                        price={2500}
-                        details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                    />
-                    <MealCard 
-                        name="Chicken Paella Rice"
-                        averageRating={4.5}
-                        ratingCount={21}
-                        restaurantName="Kobis Foods"
-                        price={2500}
-                        details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                    />
-                    <MealCard 
-                        name="Chicken Paella Rice"
-                        averageRating={4.5}
-                        ratingCount={21}
-                        restaurantName="Kobis Foods"
-                        price={2500}
-                        details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                    />
-                    <MealCard 
-                        name="Chicken Paella Rice"
-                        averageRating={4.5}
-                        ratingCount={21}
-                        restaurantName="Kobis Foods"
-                        price={2500}
-                        details="Fresh okro, fish and other seafoods, spices, special Kobis ingredients."
-                    />
-                </div>
-            </section> 
         </Container>
         </>
     )
 }
+
+const mapStateToProps = (state) => (
+    {
+        accessToken: state.accessToken
+    }
+)
+
+export default connect(mapStateToProps, null)(Homepage)
 
 function Tab (props) {
     return ( 

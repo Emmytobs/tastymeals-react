@@ -114,6 +114,6 @@ function Meals(props) {
     )
 }
 
-const mapStateToProps = (state) => ({ meals: state.mealsByAdmin, restaurantId: state.user.restaurantId })
+const mapStateToProps = (state) => ({ meals: state.mealsByAdmin, restaurantId: state.adminRestaurantProfile.restaurantid })
 
 export default connect(mapStateToProps, null)(Meals);

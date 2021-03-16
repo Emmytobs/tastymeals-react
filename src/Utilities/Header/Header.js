@@ -33,8 +33,9 @@ function Header(props) {
                     <h5>{props.firstname} {props.lastname}</h5>
                     <img src={cart} alt="cart" className="pointer icon-size" onClick={toggleCart} />
                 </div>
-            {/* </div> */}
-            {overlay && <Overlay>
+            
+            { // Overlay for the cart items
+            overlay && <Overlay>
                 <div className={'container ' + styles.cartListContainer}>
                     <button onClick={toggleCart}>Close</button>
                     <h2>Cart</h2>
@@ -52,7 +53,8 @@ function Header(props) {
                         {!props.cart.length && <p>No item in cart</p>}
                     </div>
                 </div>
-            </Overlay>}
+            </Overlay>
+            }
         </header>
     )
 }

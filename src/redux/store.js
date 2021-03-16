@@ -8,6 +8,15 @@ export const initialState = {
     cart: [],
     orders: '',
     favorites: '',
+    meals: {
+        'POPULAR': [],
+        'TOP RATED': [],
+        'SEARCHED': []
+    },
+    restaurants: {
+        'TOP RATED': [],
+        'SEARCHED': []
+    },
     mealsByAdmin: [],
     adminRestaurantProfile: ''
 }

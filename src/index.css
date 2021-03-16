@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: background .5s ease-in-out, color 1s ease-in-out;
   margin: 0;
   /* margin: 3rem 0 1.38rem; */
-  font-family: 'PT Serif', serif;
+  font-family: 'PT Sans', sans-serif;
   font-weight: 700;
   line-height: 1.3;
 }

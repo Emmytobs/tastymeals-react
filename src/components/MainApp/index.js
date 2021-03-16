@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route, useRouteMatch, Switch, Redirect } from 'react-router';
 
 // Components under /app
-import Homepage from './Homepage';
+import Homepage from './Homepage/Homepage';
 import MealDetails from './MealDetails/MealDetails';
 import RestaurantDetails from './RestaurantDetails';
 import AdminPage from '../AdminPage/AdminPage';

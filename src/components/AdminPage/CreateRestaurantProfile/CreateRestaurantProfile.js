@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 
@@ -11,12 +11,29 @@ import { saveAdminRestaurantProfile } from '../../../redux/dispatchers'
 import styles from './CreateRestaurantProfile.module.css'
 
 function CreateRestaurantProfile(props) {
+    const [formData, setFormData] = useState(null);
 
     const createRestaurant = async (values) => {
         try {
+            let imageUrlFromCloudinary = '';
+            if (formData) {
+                try {
+                    const response = await axios.post(`https://api.cloudinary.com/v1_1/emmytobs/image/upload`, formData)
+                    if (response.status === 200) {
+                        const { secure_url } = response.data;
+                        imageUrlFromCloudinary = secure_url;
+                    }
+                } catch (error) {
+                    if (!error.response) {
+                        return console.log('No internet')
+                    }
+                    console.log(error.response)
+                }
+            }
+            
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/restaurant`,
-                values,
+                { image: imageUrlFromCloudinary && imageUrlFromCloudinary, ...values},
                 { headers: { 'Authorization': 'Bearer ' + props.accessToken } })
             if (response.status === 201) {
                 const newRestaurant = response.data.data;
@@ -29,6 +46,14 @@ function CreateRestaurantProfile(props) {
             }
             console.log(error.response)
         }
+    }
+
+    const uploadImage = (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file)
+        formData.append('upload_preset', 'ml_default')
+        setFormData(formData);
     }
 
     return (
@@ -73,7 +98,7 @@ function CreateRestaurantProfile(props) {
                                 onChange={handleChange}
                                 value={values.country}
                             />
-                            <input type="file" placeholder="Upload an image" />
+                            <input type="file" placeholder="Upload an image" onChange={uploadImage} />
                             <PrimaryButton type="submit">Create profile</PrimaryButton>
                         </Form>
                     )}

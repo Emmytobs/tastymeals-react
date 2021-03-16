@@ -1,61 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import axios from 'axios'
 import { connect } from 'react-redux';
+import { saveAdminRestaurantProfile } from '../../redux/dispatchers'
 
 import Orders from './Orders/Orders'
 import Meals from './Meals/Meals';
 import CreateRestaurantProfile from './CreateRestaurantProfile/CreateRestaurantProfile';
-import AddMeal from './AddMeal/AddMeal';
 
 function AdminPage(props) {
-    // const [restaurantProfile, setRestaurantProfile] = useState(null);
-    // const [meals, setMeals] = useState([]);
+    const fecthRestaurantProfile = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/restaurant/admin`, {
+                headers: { 'Authorization': 'Bearer ' +  props.accessToken }
+            });
+            if (response.status !== 200) {
+                const { message } = response.data;
+                return console.log(message)
+            }
+            if (response.status === 204) {
+                return console.log('You have not created a restaurant profile')
+            }
+            const [restaurantProfile] = response.data.data;
+            saveAdminRestaurantProfile(restaurantProfile, props.dispatch);
+        } catch (error) {
+            if (!error.response) {
+                return console.log('No internet');
+            }
+            console.log(error.response.message);
+        }
+    }
 
-    // const fecthRestaurantProfile = async () => {
-    //     try {
-    //         const response = await axios.get(`${process.env.REACT_APP_API_URL}/restaurant/admin`, {
-    //             headers: { 'Authorization': 'Bearer ' +  props.accessToken }
-    //         });
-    //         if (response.status !== 200) {
-    //             const { message } = response.data;
-    //             return console.log(message)
-    //         }
-    //         if (response.status === 204) {
-    //             return console.log('You have not created a restaurant profile')
-    //         }
-    //         const restaurantProfile = response.data.data;
-    //         setRestaurantProfile(restaurantProfile);
-    //     } catch (error) {
-    //         if (!error.response) {
-    //             return console.log('No internet');
-    //         }
-    //         console.log(error.response.message);
-    //     }
-    // }
-
-    // const fetchMeals = async () => {
-    //     try {
-    //         const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/admin`, {
-    //             headers: { 'Authorization': 'Bearer ' + props.accessToken }
-    //         })
-    //         if (!response) {
-    //             return console.log('No internet')
-    //         }
-    //         const meals = response.data.data;
-    //         setMeals([ ...meals ]);
-    //     } catch (error) {  
-    //         if (!error.response) {
-    //             return console.log('No internet');
-    //         }
-    //         console.log(error.response.message)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fecthRestaurantProfile()
-    //     fetchMeals()
-    // }, [])
+    useEffect(() => {
+        fecthRestaurantProfile()
+    }, [])
 
 
     return (
