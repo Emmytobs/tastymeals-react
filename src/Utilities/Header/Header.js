@@ -20,9 +20,16 @@ function Header(props) {
         return new URLSearchParams(useLocation().search);
     }
     const searchQuery = useQuery().get('q');
+    const searchParams = useLocation().search;
     useEffect(() => {
         searchQuery && setInputValue(searchQuery)
     }, [])
+
+    useEffect(() => {
+        if (!searchQuery) {
+            setInputValue('')
+        }
+    }, [searchParams])
     
     const handleChange = (e) => {
         setInputValue(e.target.value);

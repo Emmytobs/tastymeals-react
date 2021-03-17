@@ -1,4 +1,40 @@
 .exploreContainer {
+    position: relative;
     margin-top: 100px;
+    margin-left: 230px;
     padding: 20px 30px;
+}
+
+
+.tabs {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    transition: all 1s ease-in-out;
+}
+
+.mealWrapper {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 15px;
+}
+.errorMessage {
+    margin-top: 40px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+.exploreNav {
+    position: fixed;
+    margin-top: 100px;
+    min-height: 100vh;
+    width: 200px;
+    top: 0;
+    left: 0;
 }

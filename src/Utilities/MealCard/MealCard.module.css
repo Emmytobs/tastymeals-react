@@ -2,7 +2,6 @@
     background: var(--container);
     color: var(--text-color);
     transition: var(--color-mode-transition);
-    width: 96%;
     height: 350px;
     overflow-y: auto;
 }

@@ -38,6 +38,7 @@ function MealCard(props) {
                 </div>
             {/* <Link to={`/app/meal/${props.mealid}`} className={styles.mealLink}>
                 <div className={styles.mealImageContainer}>
+                
                     <img src={props.image} alt="Meal img" />
                 </div>
             </Link>

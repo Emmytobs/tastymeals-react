@@ -66,7 +66,16 @@ function Homepage(props) {
         <div className={styles.homepageContainer}>
             <section className={styles.section}>
                 <div className={styles.tabs}>
-                    { props.foodCategories.map((category, index) => <Tab key={index} id={category.categoryid} {...props}>{category.categoryname}</Tab> ) }
+                    { props.foodCategories.map((category, index) => 
+                        <Tab 
+                            key={index} 
+                            id={category.categoryid} 
+                            name={category.categoryname}
+                            history={props.history}
+                        >
+                            {category.categoryname}
+                        </Tab>)
+                    }
                 </div>
             </section>
 
@@ -108,7 +117,7 @@ function Homepage(props) {
                         props.meals['TOP RATED'].map((meal, index) => (
                             <MealCard
                                 key={index}
-                                id={index}
+                                mealid={meal.mealid}
                                 image={meal.mealimage}
                                 name={meal.mealname}
                                 averageRating={meal.average_rating}
@@ -136,9 +145,9 @@ const mapStateToProps = (state) => (
 
 export default connect(mapStateToProps, null)(Homepage)
 
-function Tab (props) {
+export function Tab (props) {
     const goToExplore = (category) => {
-        props.history.push(`/app/explore?columnFilter=category:${props.id}`)
+        props.history.push(`/app/explore?columnFilter=category:${props.id}&categoryName=${props.name}`)
     }
 
     return ( 
