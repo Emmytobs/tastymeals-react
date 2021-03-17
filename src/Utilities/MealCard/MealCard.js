@@ -7,7 +7,7 @@ import styles from './MealCard.module.css';
 function MealCard(props) {
     return (
         <div className={styles.mealContainer}>
-            <Link to="/app/meal/1" className={styles.mealLink}>
+            <Link to={`/app/meal/${props.mealid}`} className={styles.mealLink}>
                 <div className={styles.mealImageContainer}>
                     <img src={props.image} alt="Meal img" />
                 </div>
@@ -16,7 +16,10 @@ function MealCard(props) {
                 <h6>{props.name}</h6>
                 <h6>{props.averageRating}({props.ratingCount})</h6>
             </div>
-            <Link to="/app/restaurant/1"><p className={"inline-link "+ styles.restaurantName}>{props.restaurantName}</p></Link>
+            {props.restaurantName && 
+            <Link to={`/app/restaurant/${props.restaurantId}`}>
+                <p className={"inline-link "+ styles.restaurantName}>{props.restaurantName}</p>
+            </Link>}
             <div className={'d-flex justify-between align-center ' + styles.price_addToCart}>
                 <h5>{props.price}</h5>
             </div>

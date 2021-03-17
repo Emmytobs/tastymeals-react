@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PrimaryButton } from '../../../Utilities/Buttons'
@@ -12,11 +12,14 @@ import Container from '../../../Utilities/Container'
 import axios from 'axios'
 // src\Utilities\MealCard\meal-image.png
 function MealDetails(props) {
+    const [meal, setMeal] =  useState([]);
+
     const addOrder = () => {
         const { id, name, price, restaurantName, averageRating, ratingCount } = props;
         addMealToCart({ id, name, price, restaurantName, averageRating, ratingCount }, props.dispatch)
     }
     const { mealId } = useParams();
+    
     const fetchMeal = async (meaId) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/${mealId}`, { 

@@ -82,11 +82,13 @@ function Homepage(props) {
                             <MealCard
                                 key={index}
                                 id={index}
+                                mealid={meal.mealid}
                                 image={meal.mealimage}
                                 name={meal.mealname}
                                 averageRating={meal.average_rating}
                                 ratingCount={meal.rating_count}
                                 restaurantName={meal.name}
+                                restaurantId={meal.restaurantid}
                                 price={meal.price}
                                 details={meal.description}
                             />

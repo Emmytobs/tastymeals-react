@@ -5,7 +5,7 @@ import { Route, useRouteMatch, Switch, Redirect } from 'react-router';
 // Components under /app
 import Homepage from './Homepage/Homepage';
 import MealDetails from './MealDetails/MealDetails';
-import RestaurantDetails from './RestaurantDetails';
+import RestaurantDetails from './RestaurantDetails/RestaurantDetails';
 import AdminPage from '../AdminPage/AdminPage';
 
 function MainApp(props) {
