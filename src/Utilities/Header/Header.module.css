@@ -1,35 +1,70 @@
 /*  A flex container */
 .header {
-    background: var(--brand-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-color);
+    transition: var(--color-mode-transition);
     position: fixed;
+    top: 0;
+    left: 0;
     height: 70px;
     width: 100%;
+    padding: 10px;
     z-index: 99;
 }
 
-.header > h2 {
+.menuBtn_logo > * { 
+    display: inline-block;
+    vertical-align: middle;
+}
+.menuBtn_logo > button {
+    margin-left: 10px;
+}
+.logo {
     text-align: center;
-    flex: 0 0 20%;
+    margin-left: 30px;
+}
+.logo > span {
+    margin-left: -5px;
+}
+
+.headerComponents {
+    width: 550px;
+}
+.headerComponents > * {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .searchContainer {
-    background: var(--bg-color);
+    background: var(--container);
     color: var(--text-color);
-    transition: background .5s ease-in-out, color 1s ease-in-out;
+    transition: all .5s ease-in-out, color 1s ease-in-out;
+    border-bottom: 2px solid var(--border);
     padding: 10px;
     border-radius: 5px;
-    flex: 0 0 50%;
+    width: 70%;
 }
-.searchContainer > img {
+.searchContainer > * {
+    display: inline-block;
     vertical-align: middle;
 }
-.searchContainer > input {
+.searchContainer > img {
+    width: 20px;
+    height: 20px;
+}
+.searchForm {
+    width: 83%;
+}
+.searchForm > input {
     border-width: 0;
     height: 24px;
+    font-size: 1em;
     background: transparent;
     color: var(--text-color);
     margin: auto 10px;
-    width: 89%;
+    width: 100%;
     outline: none;
 }
 .userData {

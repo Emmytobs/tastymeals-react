@@ -12,7 +12,7 @@ import axios from 'axios';
 function RestaurantDetails(props) {
     const { restaurantId } = useParams();
     const [restaurantData, setRestaurantData] = useState({});
-    const [relatedMeals, setRelatedMeals] = useState([]);
+    const [restaurantMeals, setRestaurantMeals] = useState([]);
 
     const fetchRestaurantData = async () => {
         try {
@@ -20,7 +20,6 @@ function RestaurantDetails(props) {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             })
             if (response.status === 200) {
-                console.log(response)
                 setRestaurantData(response.data.data)
             }
         } catch (error) {
@@ -31,18 +30,20 @@ function RestaurantDetails(props) {
         }
     }
 
-    const fetchRelatedMeals = async () => {
+    const fetchRestaurantMeals = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/by_restaurant/${restaurantId}?order_by=category:asc&limit=6`, {
-                headers: { 'Authorization': 'Bearer '+ props.accessToken }
-            });
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal`, {
+                headers: { 'Authorization': 'Bearer '+ props.accessToken },
+                params: {
+                    'columnFilter': `restaurantid:${restaurantId}`   
+                }
+            })
             if (response.status === 200) {
-                const relatedMeals = response.data.data;
-                setRelatedMeals(relatedMeals);
+                setRestaurantMeals(response.data.data)
             }
         } catch (error) {
             if (!error.response) {
-                console.log('No internet')
+                return console.log('No internet')
             }
             console.log(error)
         }
@@ -50,60 +51,73 @@ function RestaurantDetails(props) {
 
     useEffect(() => {
         fetchRestaurantData()
-        fetchRelatedMeals()
+        fetchRestaurantMeals()
     }, [])
 
     return (
         <>
-        <Header />
-        <Container>
-            <div className={'container d-flex justify-around align-start ' + styles.restaurantDetailsContainer}>
-                <div>
-                    <h3>{restaurantData.name}</h3>
-                    <div style={{ width: '400px', height: '400px', backgroundColor: "#444" }}>
-                        <img src={restaurantData.image} className={styles.restaurantImg} alt="Restaurant Img" width="100%" height="100%" />
-                    </div>
-                    <div className={styles.adminData}>
-                        <img src={restaurantData.profile_image} alt="Restaurant admin's display pic" className="dp-size" />
-                        <h5>{restaurantData.firstname} {restaurantData.lastname}</h5>
+        <Header {...props} />
+        <div className={styles.restaurantDetailsContainer}>
+            <div className={styles.banner}>
+                <img src={restaurantData.image} alt="Banner img" width="100%" height="100%" />
+                <h3 className={styles.restaurantName}>{restaurantData.name}</h3>
+                <div className={styles.bannerOverlay}></div>
+            </div>
+            <div className={'container '+ styles.details}>
+                    <h5>{restaurantData.firstname} {restaurantData.lastname}</h5>
 
-                        <p>{restaurantData.address}</p>
-                        <span>{restaurantData.city}</span>
-                        <span>{restaurantData.country}</span>
+                    <p>{restaurantData.address}</p>
+                    <span>{restaurantData.city}</span>
+                    <span>{restaurantData.country}</span>
 
-                        <p>call: {restaurantData.phone}</p>
-                        <p>email: {restaurantData.email}</p>
-                    </div>
+                    <p>call: {restaurantData.phone}</p>
+                    <p>email: {restaurantData.email}</p>
+            </div>
+            {/* <div> 
+                <h3>{restaurantData.name}</h3>
+                <div style={{ width: '400px', height: '400px', backgroundColor: "#444" }}>
+                    <img src={restaurantData.image} className={styles.restaurantImg} alt="Restaurant Img" width="100%" height="100%" />
                 </div>
-                <div className={`container ${styles.restaurantStats}`}>
-                    <h3>Restaurant Stats</h3>
-                    <h5>Average Rating: <span className={"text-highlight "+ styles.rating}> <h2 className="text-highlight">{restaurantData.average_rating}</h2> /5</span> </h5>
-                    <h5>*star*</h5>
+                <div className={styles.adminData}>
+                    <img src={restaurantData.profile_image} alt="Restaurant admin's display pic" className="dp-size" />
+                    <h5>{restaurantData.firstname} {restaurantData.lastname}</h5>
 
-                    <h5>Total meal offerings: *insert here*</h5>
+                    <p>{restaurantData.address}</p>
+                    <span>{restaurantData.city}</span>
+                    <span>{restaurantData.country}</span>
+
+                    <p>call: {restaurantData.phone}</p>
+                    <p>email: {restaurantData.email}</p>
                 </div>
             </div>
+            <div className={`container ${styles.restaurantStats}`}>
+                <h3>Restaurant Stats</h3>
+                <h5>Average Rating: <span className={"text-highlight "+ styles.rating}> <h2 className="text-highlight">{restaurantData.average_rating}</h2> /5</span> </h5>
+                <h5>*star*</h5>
 
-            <div className={'container ' + styles.meals}>
-                <h5>Meals by Kobis Foods</h5>
-                <div className={styles.mealWrapper}>
-                    {
-                        relatedMeals.map((meal, index) => (
-                            <MealCard 
-                                key={index}
-                                mealid={meal.mealid}
-                                image={meal.mealimage}
-                                name={meal.mealname}
-                                averageRating={meal.average_rating}
-                                ratingCount={meal.rating_count}
-                                price={meal.price}
-                                details={meal.description}
-                           />
-                        ))
-                    }
-                </div>
+                <h5>Total meal offerings: *insert here*</h5>
+            </div> */}
+        </div>
+
+        <div className={'container ' + styles.meals}>
+            <h5>Meals by Kobis Foods</h5>
+            <div className={styles.mealWrapper}>
+                {
+                    restaurantMeals.map((meal, index) => (
+                        <MealCard 
+                            key={index}
+                            mealid={meal.mealid}
+                            image={meal.mealimage}
+                            name={meal.mealname}
+                            averageRating={meal.average_rating}
+                            ratingCount={meal.rating_count}
+                            price={meal.price}
+                            details={meal.description}
+                        />
+                    ))
+                }
             </div>
-        </Container>
+        </div>
         </>
     )
 }

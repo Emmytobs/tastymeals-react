@@ -23,7 +23,7 @@ function Homepage(props) {
 
     const fetchPopularMeals = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/all?limit=10&offset=0&order_by=order_count:desc`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal?limit=10&offset=0&order_by=order_count:desc`, {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
             const popularMeals = response.data.data;
@@ -38,7 +38,7 @@ function Homepage(props) {
 
     const fetchTopRatedMeals = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/all?limit=10&offset=0&order_by=average_rating:desc`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal?limit=10&offset=0&order_by=average_rating:desc`, {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
             const topRatedMeals = response.data.data;
@@ -62,11 +62,11 @@ function Homepage(props) {
 
     return (
         <>
-        <Header />
-        <Container {...props}>
+        <Header {...props} />
+        <div className={styles.homepageContainer}>
             <section className={styles.section}>
                 <div className={styles.tabs}>
-                    { props.foodCategories.map((category, index) => <Tab key={index}>{category.categoryname}</Tab> ) }
+                    { props.foodCategories.map((category, index) => <Tab key={index} id={category.categoryid} {...props}>{category.categoryname}</Tab> ) }
                 </div>
             </section>
 
@@ -121,7 +121,7 @@ function Homepage(props) {
                     }
                 </div>
             </section>
-        </Container>
+        </div>  
         </>
     )
 }
@@ -137,8 +137,13 @@ const mapStateToProps = (state) => (
 export default connect(mapStateToProps, null)(Homepage)
 
 function Tab (props) {
+    const goToExplore = (category) => {
+        props.history.push(`/app/explore?columnFilter=category:${props.id}`)
+    }
+
     return ( 
         <span
+            onClick={() => goToExplore(props.children)}
             style={{ color: props.active && '#fff', backgroundColor: props.active && '#FD8867' }} 
             className={styles.tab}>
             {props.children}

@@ -12,7 +12,10 @@
   --light-text: #444;
 
   --dark-heading-text: #F3EFEF;
-  --dark-text: #E3E2E2
+  --dark-text: #E3E2E2;
+
+  --dark-border: #fff;
+  --light-border: #ccc;
 }
 
 html {font-size: 100%;} /*16px*/
@@ -21,7 +24,8 @@ html {font-size: 100%;} /*16px*/
   --bg-color: var(--light-bg);
   --text-color: var(--light-text);
   --heading: var(--light-heading-text);
-  --container: var(--light-container-bg)
+  --container: var(--light-container-bg);
+  --border: var(--light-border)
 }
 
 .dark {
@@ -29,6 +33,7 @@ html {font-size: 100%;} /*16px*/
   --text-color: var(--dark-text);
   --heading: var(--dark-heading-text);
   --container: var(--dark-container-bg);
+  --border: var(--dark-border)
 }
 
 .container {

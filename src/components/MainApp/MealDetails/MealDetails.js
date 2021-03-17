@@ -13,19 +13,22 @@ import axios from 'axios'
 // src\Utilities\MealCard\meal-image.png
 function MealDetails(props) {
     const [meal, setMeal] =  useState([]);
+    const [relatedMeals, setRelatedMeals] =  useState([]);
 
     const addOrder = () => {
-        const { id, name, price, restaurantName, averageRating, ratingCount } = props;
-        addMealToCart({ id, name, price, restaurantName, averageRating, ratingCount }, props.dispatch)
+        const { id, mealname, price, name, average_rating, rating_count } = meal;
+        addMealToCart({ id, mealname, price, name, average_rating, rating_count }, props.dispatch)
     }
     const { mealId } = useParams();
-    
-    const fetchMeal = async (meaId) => {
+
+    const fetchMeal = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/${mealId}`, { 
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
-            console.log(response);
+            if (response.status === 200) {
+                return setMeal(response.data.data);
+            }
         } catch (error) {
             if (!error.response) {
                 return console.log('No internet')
@@ -36,8 +39,33 @@ function MealDetails(props) {
             console.log(error.response)
         }
     }
+
+    const fetchRelatedMeals = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal`, {
+                headers: { 'Authorization': 'Bearer '+ props.accessToken },
+                params: {
+                    columnFilter: `category:${meal.category}`,
+                    limit: "6"
+                }
+            });
+            if (response.status === 200) {
+                const relatedMeals = response.data.data;
+                console.log(relatedMeals)
+                setRelatedMeals(relatedMeals);
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log('No internet')
+            }
+            console.log(error.response)
+        }
+    }
+
     useEffect(() => {
-        fetchMeal(mealId)
+        fetchMeal()
+        // Works
+        // fetchRelatedMeals()
     }, [])
 
     return (
@@ -46,14 +74,14 @@ function MealDetails(props) {
         <Container>
             <div className={'d-flex justify-between align-center ' + styles.mealDetailsContainer}>
                 <div className={styles.imageContainer}>
-                    <img src={mealImg} alt="Meal Img" width="300px" height="300px" />
+                    <img src={meal.mealimage} alt="Meal Img" width="300px" height="300px" />
                 </div>
                 <div className={styles.mealDetails}>
-                    <h5>Chicken Paella Rice</h5>
-                    <span className="inline-link">Kobis Foods</span>
-                    <p>Fresh okro, fish and other seafoods, spices, special Kobis ingredients.</p>
+                    <h5>{meal.mealname}</h5>
+                    <span className="inline-link">*Restaurant Name*</span>
+                    <p>{meal.description}</p>
                     <div className={'d-flex justify-between align-center ' + styles.price_addToCart}>
-                        <h5>2,500</h5>
+                        <h5>{meal.price}</h5>
                         <select name='quantity'>
                             <option>1</option>
                             <option>2</option>
@@ -74,7 +102,7 @@ function MealDetails(props) {
                         <span className={styles.active}></span>
                     </span>
                     <span className={styles.tab}>
-                        <h5>More from Kobis Foods</h5>
+                        <h5>Related meals</h5>
                     </span>
                 </div>
                 <div className={styles.content}>
