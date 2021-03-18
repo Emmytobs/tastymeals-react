@@ -40,6 +40,7 @@ function Explore(props) {
             }
         } catch (error) {
             if (!error.response) {
+                setMeals('Couldn\'t fetch meals. Check your connection')
                 return console.log('No internet')
             }
             if (error.response.status === 404) {
@@ -49,6 +50,7 @@ function Explore(props) {
     }
 
     useEffect(() => {
+        // Everytime the query params change, fetch meals and filter by the updated query params
         fetchMeals()
     }, [columnFilter, searchQuery])
 

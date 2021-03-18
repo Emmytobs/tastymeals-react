@@ -16,35 +16,36 @@ import { saveMeals } from '../../../redux/dispatchers'
 
 function Meals(props) {
     const [toggleOverlay, setToggleOverlay] = useState(false)
-    // const [searchMealsInput, setSearchMealsInput] = useState('')
+    const [searchMealQuery, setSearchMealQuery] = useState('')
 
-    // const [mealsInLocalState, setMealsInLocalState] = useState(props.meals);
+    const [meals, setMeals] = useState([]);
+    const [filteredMeals, setFilteredMeals] = useState([]);
 
-    // const filterMeals = (e) => {
-    //     const { value } = e.target;
-    //     setSearchMealsInput(value);   
-    // }
+    const filterMeals = (e) => {
+        const { value } = e.target;
+        setSearchMealQuery(value);   
+        // console.log(e.target.value)
+    }
 
-    // useEffect(() => {
-    //     if (searchMealsInput.length) {
-    //         const filteredMeals = mealsInLocalState.filter(meal => {
-    //             return meal.name.toLocaleLowerCase().indexOf(searchMealsInput.toLocaleLowerCase()) !== -1;
-    //         })
-    //         return setMealsInLocalState(filteredMeals);
-    //     }
-    //     setMealsInLocalState(props.meals)
-    // }, [searchMealsInput])
+    useEffect(() => {
+        if (searchMealQuery.length) {
+            const mealsFiltered = meals.filter(meal => {
+                return meal.mealname.toLocaleLowerCase().indexOf(searchMealQuery.toLocaleLowerCase()) !== -1;
+            })
+            return setFilteredMeals(mealsFiltered);
+        }
+        setFilteredMeals(meals);
+    }, [searchMealQuery])
 
     const fetchMeals = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/admin`, { 
                 headers: { 'Authorization': 'Bearer ' + props.accessToken } 
             })
-            console.log(response)
             if (response.status === 200) {
-                saveMeals(response.data.data, 'ADMIN', props.dispatch)
+                setFilteredMeals(response.data.data)
+                return setMeals(response.data.data)
             }
-            
         } catch (error) {
             if(!error.response) {
                 console.log('No Internet')
@@ -62,10 +63,7 @@ function Meals(props) {
             <h2 className={styles.pageTitle}>Meals</h2>
             <p>by {props.restaurantProfile.name}</p>
             <div className={'d-flex justify-start align-center ' + styles.filterMealsContainer}>
-                {/* <div> */}
-                {/* onChange={filterMeals} value={searchMealsInput}  */}
-                    <Input type="search" placeholder="Search meals" />
-                {/* </div> */}
+                <Input type="search" onChange={filterMeals} value={searchMealQuery} placeholder="Search meals" />
                 <select>
                     <option disabled selected>Status</option>
                     <option>Processing</option>
@@ -97,8 +95,8 @@ function Meals(props) {
                     </TableHead>
                     <TableBody>
                         {
-                            props.meals.length &&
-                                props.meals.map((meal, index) => (
+                            filteredMeals.length &&
+                                filteredMeals.map((meal, index) => (
                                     <TableRow key={index}>
                                         <TD className={styles.mealId}>{meal.mealid}</TD>
                                         <TD>
@@ -116,7 +114,7 @@ function Meals(props) {
                         }
                     </TableBody>
                 </Table>
-                {!props.meals.length && (
+                {!filteredMeals.length && (
                     <h5>There are no meals to display</h5>
                 )}
             </div>

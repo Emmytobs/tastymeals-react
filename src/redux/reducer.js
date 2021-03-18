@@ -3,8 +3,8 @@ import {
     SAVE_USER_DATA,
     SAVE_MEALS,
     SAVE_ADMIN_RESTAURANT_PROFILE,
-    ADD_MEAL_TO_CART,
-    REMOVE_MEAL_FROM_CART,
+    ADD_ORDER,
+    REMOVE_ORDER,
     SAVE_FOOD_CATEGORIES
 } from './actionNames'
 
@@ -24,11 +24,11 @@ function reducer(state=initialState, action) {
         case SAVE_ADMIN_RESTAURANT_PROFILE:
             return { ...state, adminRestaurantProfile: { ...action.payload } }
 
-        case ADD_MEAL_TO_CART:
-            return { ...state, cart: [...state.cart, action.payload] }
+        case ADD_ORDER:
+            return { ...state, order: action.payload }
         
-        case REMOVE_MEAL_FROM_CART:
-            return removeCartItem(state, action)
+        case REMOVE_ORDER:
+            return { ...state, order: {} }
 
         case SAVE_FOOD_CATEGORIES:
             return { ...state, foodCategories: action.payload }

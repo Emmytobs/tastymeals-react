@@ -42,7 +42,7 @@ function ProtectedRoute(props) {
             }
             // If response is 200, token is valid, 
             // save user data
-            const user = response.data.data
+            const user = response.data.data;
             saveUserData(user, props.dispatch);
             return setTokenStatus(tokenStatuses[1])
 

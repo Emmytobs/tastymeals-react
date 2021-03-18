@@ -3,8 +3,8 @@ import {
     SAVE_USER_DATA,
     SAVE_MEALS,
     SAVE_ADMIN_RESTAURANT_PROFILE,
-    ADD_MEAL_TO_CART,
-    REMOVE_MEAL_FROM_CART,
+    ADD_ORDER,
+    REMOVE_ORDER,
     SAVE_FOOD_CATEGORIES
 } from './actionNames'
 
@@ -24,12 +24,12 @@ export function saveAdminRestaurantProfile(payload, dispatch) {
     dispatch({ type: SAVE_ADMIN_RESTAURANT_PROFILE, payload })
 }
 
-export function addMealToCart(payload, dispatch) {
-    dispatch({ type: ADD_MEAL_TO_CART, payload })
+export function addOrder(payload, dispatch) {
+    dispatch({ type: ADD_ORDER, payload })
 }
 
-export function removeMealFromCart(payload, dispatch) {
-    dispatch({ type: REMOVE_MEAL_FROM_CART, payload })
+export function removeOrder(payload, dispatch) {
+    dispatch({ type: REMOVE_ORDER, payload })
 }
 
 export function saveFoodCategories(payload, dispatch) {

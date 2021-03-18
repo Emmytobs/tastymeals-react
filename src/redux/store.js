@@ -5,8 +5,7 @@ export const initialState = {
     accessToken: '',
     refreshToken: '',
     user: {},
-    cart: [],
-    orders: '',
+    order: {},
     favorites: '',
     foodCategories: [],
     meals: {

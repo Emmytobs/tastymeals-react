@@ -4,20 +4,20 @@ import { connect } from 'react-redux'
 import { PrimaryButton } from '../../../Utilities/Buttons'
 import styles from './MealDetails.module.css'
 
-import { addMealToCart } from '../../../redux/dispatchers'
+import { addOrder } from '../../../redux/dispatchers'
 
-import mealImg from '../../../Utilities/MealCard/meal-image.png'
 import Header from '../../../Utilities/Header/Header'
 import Container from '../../../Utilities/Container'
 import axios from 'axios'
-// src\Utilities\MealCard\meal-image.png
+
 function MealDetails(props) {
     const [meal, setMeal] =  useState([]);
     const [relatedMeals, setRelatedMeals] =  useState([]);
+    
 
-    const addOrder = () => {
-        const { id, mealname, price, name, average_rating, rating_count } = meal;
-        addMealToCart({ id, mealname, price, name, average_rating, rating_count }, props.dispatch)
+    const orderMeal = () => {
+        const { mealid, mealname, price, name, restaurantid } = meal;
+        addOrder({ mealid, mealname, price, name, restaurantid }, props.dispatch)
     }
     const { mealId } = useParams();
 
@@ -78,18 +78,12 @@ function MealDetails(props) {
                 </div>
                 <div className={styles.mealDetails}>
                     <h5>{meal.mealname}</h5>
-                    <span className="inline-link">*Restaurant Name*</span>
+                    <span className="inline-link">{meal.name}</span>
                     <p>{meal.description}</p>
                     <div className={'d-flex justify-between align-center ' + styles.price_addToCart}>
                         <h5>{meal.price}</h5>
-                        <select name='quantity'>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
                         <div className={styles.buttons}>
-                            
-                            <PrimaryButton onClick={addOrder}>Order</PrimaryButton>
+                            <PrimaryButton onClick={orderMeal}>Order</PrimaryButton>
                         </div>
                     </div>
                 </div>

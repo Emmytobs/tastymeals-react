@@ -26,3 +26,22 @@
 .tableContainer {
     width: 100%;
 }
+
+/* For the order modal */
+.orderModalContainer {
+    height: 400px;
+}
+.rejectionNotConfirmed {
+    color: red;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: none;
+}
+.rejectionConfirmed {
+    color: green;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: none;
+}

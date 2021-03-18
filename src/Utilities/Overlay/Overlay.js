@@ -4,8 +4,9 @@ import styles from './Overlay.module.css'
 export function Overlay(props) {
     const handleClick = (e) => {
         const { id } = e.target;
-        if (id === 'overlay') {
-            props.closeOverlayHandler && props.closeOverlayHandler(false)
+    
+        if (id === 'overlay' || id === props.targetId) {
+            props.closeOverlayHandler && props.closeOverlayHandler(props.closeOverlayHandlerArg || false)
         }
     }
     return (

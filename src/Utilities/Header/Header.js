@@ -1,20 +1,60 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Overlay from '../Overlay'
-import Sidebar from '../Sidebar/Sidebar';
 
 import cart from './icons/cart.png';
+import cancel from './icons/cancel.png';
 import search from './icons/search.png';
 
 import styles from './Header.module.css';
-import { removeMealFromCart } from '../../redux/dispatchers';
+import { removeOrder } from '../../redux/dispatchers';
+import { PrimaryButton } from '../Buttons';
+import axios from 'axios';
 
 function Header(props) {
-    const [overlay, setOverlay] = useState(false);
+    const [cartOverlay, setCartOverlay] = useState(false);
+    const [menuOverlay, setMenuOverlay] = useState(false);
     const [inputValue, setInputValue] = useState('');
+
+    const [orderData, setOrderData] =  useState({
+        orderQuantity: 1,
+        orderNote: ''
+    });
+
+    const handleOrderData = (e) => {
+        const { name, value } = e.target;
+        setOrderData({ ...orderData, [name]: value })
+    }
     
-    const toggleCart = () => setOverlay(!overlay);
+    const submitOrder = async () => {
+        const order = {
+            mealId: props.order.mealid,
+            restaurantId: props.order.restaurantid,
+            ...orderData
+        };
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/order`,
+                order,
+                { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
+            )
+            console.log(response)
+        } catch (error) {
+            if (!error.response) {
+                return console.log("No internet")
+            }
+            console.log(error)
+        }
+    }
+
+    const toggleCart = () => setCartOverlay(!cartOverlay);
+    const toggleMenu = () => setMenuOverlay(!menuOverlay);
+    const logoutUser = () => {
+        localStorage.removeItem('tasty-meals-app-state');
+        props.history.push('/account')
+    }
     
     const useQuery = () => {
         return new URLSearchParams(useLocation().search);
@@ -35,7 +75,7 @@ function Header(props) {
         setInputValue(e.target.value);
     }
 
-    const submitForm = (e) => {
+    const submitMealQuery = (e) => {
         e.preventDefault();
         const inputEl = e.target.children[0];
         props.history.push(`/app/explore?q=${inputEl.value}`)
@@ -44,14 +84,16 @@ function Header(props) {
     return (
         <header className={styles.header}>
             <div className={styles.menuBtn_logo}>
-            <button>Menu</button>
-                <h3 className={'remove-margin ' + styles.logo}>Tasty <span className="text-highlight">Meals</span></h3>
+                <button onClick={toggleMenu}>Menu</button>
+                <Link to="/app" title="Back to homepage" >
+                    <h3 className={'remove-margin ' + styles.logo}>Tasty <span className="text-highlight">Meals</span></h3>
+                </Link>
             </div>
             
             <div className={styles.headerComponents}>
                 <div className={styles.searchContainer}>
                     <img src={search} alt="Search icon" className="icon-size" />
-                    <form className={styles.searchForm} onSubmit={submitForm}>
+                    <form className={styles.searchForm} onSubmit={submitMealQuery}>
                         <input 
                             type="search" 
                             placeholder="What do you want to eat?" 
@@ -59,32 +101,87 @@ function Header(props) {
                             value={inputValue} />
                     </form>
                 </div>
-                <div className={styles.user}>
-                    <img src={cart} alt="cart" className="pointer icon-size" onClick={toggleCart} />
+                <div className={styles.ordersBtn} onClick={toggleCart} >
+                    <div className='d-flex justify-center align-center'> 
+                        <img src={cart} alt="cart" className={styles.orderIcon}/>
+                        <span className={styles.orderCount}>1</span>
+                    </div>
                 </div>
             </div>
             
             { // Overlay for the cart items
-            overlay && 
-            <Overlay>
-                <div className={'container ' + styles.cartListContainer}>
-                    <button onClick={toggleCart}>Close</button>
-                    <h2>Cart</h2>
-                    <div className={styles.cartItems}>
-                        {props.cart.map(item => (
-                            <div key={item.id}>
-                                <p>{item.name}</p>
-                                <p>{item.price}</p>
-                                <span className="inline-link">{item.restaurantName}</span> <br />
-                                <span>{item.averageRating} ({item.ratingCount})</span>
-                                <button onClick={() => removeMealFromCart(item.id, props.dispatch)}>Remove</button>
-                            </div>
-                        ))}
-                        {props.cart.length && <button>Checkout</button>}
-                        {!props.cart.length && <p>No item in cart</p>}
+            cartOverlay && 
+            <div className={'container ' + styles.orderContainer}>
+                <img src={cancel} alt="Close order modal" title="Close modal" className={styles.closeOrderModal} onClick={toggleCart} />
+                <h4>Your Order</h4>
+                <div className={styles.order}>
+                    <p className={styles.restaurantName}>
+                        From 
+                        <Link to={`/app/restaurant/${props.order.restaurantid}`} className="inline-link">
+                            {props.order.name}
+                        </Link>
+                    </p>
+                    <div className={'d-flex justify-between align-center ' + styles.quantity_price}>
+                        <div>
+                            <select name="orderQuantity" value={orderData.orderQuantity} onChange={handleOrderData}>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                            <p>{props.order.mealname}</p>
+                        </div>
+                        
+                        <span>{props.order.price * orderData.orderQuantity}</span>
                     </div>
+                    <input 
+                        name="orderNote" 
+                        value={orderData.orderNote}
+                        onChange={handleOrderData}
+                        placeholder="(Optional) Add a note for the restaurant" />                
+                    <PrimaryButton onClick={submitOrder}>Checkout</PrimaryButton>
                 </div>
-            </Overlay>
+            </div>
+            }
+
+            { // Overlay for the menu
+                menuOverlay && 
+                <Overlay closeOverlayHandler={setMenuOverlay}>
+                    <div className={'container '+ styles.menuWrapper}>
+                        <div className={styles.menuContainer}>
+                            <ul>
+                                <li>
+                                    <Link to="/app">Home</Link>
+                                </li>
+                                <li>
+                                    <Link to="/app/explore">Explore</Link>
+                                </li>
+                                <li>
+                                    <Link to="/app/favorites">Favorites</Link>
+                                </li>
+                                <li>
+                                    <Link to="/app/notifications">Notifications</Link>
+                                </li>
+                                {
+                                props.type === 'RESTAURANT_ADMIN' && (
+                                    <li>
+                                        <Link to="/app/admin">Admin Area</Link>
+                                    </li>
+                                )}
+                            </ul>
+                            <div className={styles.profile}>
+                                <Link to="/app/profile">
+                                    <img 
+                                        src={cancel} 
+                                        alt="Your profile pic" 
+                                        title="Your profile picture" 
+                                        className='dp-size' />
+                                    <span>{props.firstname} {props.lastname}</span>
+                                </Link>
+                                <PrimaryButton onClick={logoutUser}>Logout</PrimaryButton>
+                            </div>
+                        </div>
+                    </div>
+                </Overlay>
             }
         </header>
     )
@@ -94,7 +191,9 @@ const mapStateToProps = (state) => ({
     profileImage: state.user.profile_image, 
     firstname: state.user.firstname, 
     lastname: state.user.lastname,
-    cart: state.cart
+    type: state.user.type,
+    order: state.order,
+    accessToken: state.accessToken
 })
 
 export default connect(mapStateToProps, null)(Header);

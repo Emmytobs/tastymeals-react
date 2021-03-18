@@ -11,8 +11,8 @@ function App() {
     <>    
     <Switch>
       <Route path="/account" component={Accounts} />
-      <Route path="/app" component={MainApp} />
-      {/* <ProtectedRoute path="/app" component={MainApp} /> */}
+      {/* <Route path="/app" component={MainApp} /> */}
+      <ProtectedRoute path="/app" component={MainApp} />
     </Switch>
     </>
   );
