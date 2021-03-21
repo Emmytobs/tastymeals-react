@@ -42,7 +42,7 @@ function Meals(props) {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/admin`, { 
                 headers: { 'Authorization': 'Bearer ' + props.accessToken } 
             })
-            if (response.status === 200) {
+            if (response.status === 200 && response.data.data) {
                 setFilteredMeals(response.data.data)
                 return setMeals(response.data.data)
             }

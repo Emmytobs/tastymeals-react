@@ -97,25 +97,24 @@ function RestaurantDetails(props) {
 
                 <h5>Total meal offerings: *insert here*</h5>
             </div> */}
-        </div>
-
-        <div className={'container ' + styles.meals}>
-            <h5>Meals by Kobis Foods</h5>
-            <div className={styles.mealWrapper}>
-                {
-                    restaurantMeals.map((meal, index) => (
-                        <MealCard 
-                            key={index}
-                            mealid={meal.mealid}
-                            image={meal.mealimage}
-                            name={meal.mealname}
-                            averageRating={meal.average_rating}
-                            ratingCount={meal.rating_count}
-                            price={meal.price}
-                            details={meal.description}
-                        />
-                    ))
-                }
+            <div className={'container ' + styles.meals}>
+                <h5>Meals by {restaurantData.name}</h5>
+                <div className={styles.mealWrapper}>
+                    {
+                        restaurantMeals.map((meal, index) => (
+                            <MealCard 
+                                key={index}
+                                mealid={meal.mealid}
+                                image={meal.mealimage}
+                                name={meal.mealname}
+                                averageRating={meal.average_rating}
+                                ratingCount={meal.rating_count}
+                                price={meal.price}
+                                details={meal.description}
+                            />
+                        ))
+                    }
+                </div>
             </div>
         </div>
         </>

@@ -8,6 +8,9 @@ import Explore from './Explore/Explore';
 import MealDetails from './MealDetails/MealDetails';
 import RestaurantDetails from './RestaurantDetails/RestaurantDetails';
 import AdminPage from '../AdminPage/AdminPage';
+import { Notifications } from './Notifications';
+import Favorites from './Favorites/Favorites';
+import Checkout from './Checkout/Checkout';
 
 function MainApp(props) {
 
@@ -18,6 +21,9 @@ function MainApp(props) {
         <Switch>
             <Route path={url} exact component={Homepage} />
             <Route path={`${url}/explore`} exact component={Explore} />
+            <Route path={`${url}/notifications`} exact component={Notifications} />
+            <Route path={`${url}/favorites`} exact component={Favorites} />
+            <Route path={`${url}/checkout`} exact component={Checkout} />
             <Route path={`${url}/meal/:mealId`} exact component={MealDetails} />
             <Route path={`${url}/restaurant/:restaurantId`} exact component={RestaurantDetails} />
             {

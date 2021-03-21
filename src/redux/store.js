@@ -6,13 +6,12 @@ export const initialState = {
     refreshToken: '',
     user: {},
     order: {},
-    favorites: '',
+    favorites: [],
     foodCategories: [],
     meals: {
         'POPULAR': [],
         'TOP RATED': [],
-        'SEARCHED': [],
-        'ADMIN': [],
+        'FAVORITES': [],
     },
     restaurants: {
         'TOP RATED': [],

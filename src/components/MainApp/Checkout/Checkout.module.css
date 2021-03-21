@@ -1,0 +1,17 @@
+.checkoutContainer {
+    margin-top: 50px;
+    padding: 0 30px;
+    min-height: 100vh;
+}
+.checkoutContainer > .pageTitle {
+    text-align: center;
+}
+
+.orderBox {
+    margin: 50px auto 0;
+    width: 30%;
+}
+
+.quantity {
+    margin-top: 10px;
+}

@@ -47,7 +47,6 @@ function ProtectedRoute(props) {
             return setTokenStatus(tokenStatuses[1])
 
         } catch (error) {
-            // console.log(error.response)
             return setTokenStatus(tokenStatuses[2])
         }
     }

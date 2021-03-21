@@ -16,3 +16,27 @@ export function Input(props) {
         </div>
     )
 }
+
+export function Textarea(props) {
+    return (
+        <div className={styles.textareaContainer}>
+            <textarea className={styles.textarea} {...props} />
+        </div>
+    )
+}
+
+export function Select(props) {
+    return (
+        <select className={styles.select} {...props}>
+            {props.children}
+        </select>
+    )
+}
+
+export function Option(props) {
+    return (
+        <option className={styles.option}>
+            {props.children}
+        </option>
+    )
+}

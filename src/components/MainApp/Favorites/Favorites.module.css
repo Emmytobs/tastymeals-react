@@ -1,0 +1,14 @@
+.favoritesContainer {
+    margin: 100px;
+    padding: 20px;
+}
+.favoritesContainer > h3 {
+    margin: 20px 0;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+}
+
+.mealWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+}

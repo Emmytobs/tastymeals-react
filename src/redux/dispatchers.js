@@ -2,6 +2,7 @@ import {
     SAVE_TOKENS,
     SAVE_USER_DATA,
     SAVE_MEALS,
+    REMOVE_FAVORITED_MEAL,
     SAVE_ADMIN_RESTAURANT_PROFILE,
     ADD_ORDER,
     REMOVE_ORDER,
@@ -18,6 +19,9 @@ export function saveUserData(payload, dispatch) {
 
 export function saveMeals(payload, mealCategory, dispatch) {
     dispatch({ type: SAVE_MEALS, mealCategory, payload })
+}
+export function removeFavoritedMeal(payload, dispatch) {
+    dispatch({ type: REMOVE_FAVORITED_MEAL, payload })
 }
 
 export function saveAdminRestaurantProfile(payload, dispatch) {

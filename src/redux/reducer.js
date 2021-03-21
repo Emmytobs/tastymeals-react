@@ -2,6 +2,7 @@ import {
     SAVE_TOKENS,
     SAVE_USER_DATA,
     SAVE_MEALS,
+    REMOVE_FAVORITED_MEAL,
     SAVE_ADMIN_RESTAURANT_PROFILE,
     ADD_ORDER,
     REMOVE_ORDER,
@@ -25,7 +26,7 @@ function reducer(state=initialState, action) {
             return { ...state, adminRestaurantProfile: { ...action.payload } }
 
         case ADD_ORDER:
-            return { ...state, order: action.payload }
+            return { ...state, order: {...state.order, ...action.payload} }
         
         case REMOVE_ORDER:
             return { ...state, order: {} }
@@ -45,3 +46,9 @@ function removeCartItem(state, action) {
     const updatedCart = _state.cart.filter(item => item.id !== action.payload);
     return { ...state, cart: updatedCart };
 }
+
+// function removeFavoritedMeal(state, action) {
+//     const _state = {...state};
+//     const updatedFavoritedMeals = _state.meals['FAVORITES'].filter(meal => meal.mealid !== action.payload)
+//     return { ...state, meals: { ...state.meals, 'FAVORITES': updatedFavoritedMeals }}
+// }

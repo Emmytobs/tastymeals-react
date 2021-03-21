@@ -22,7 +22,7 @@ function Orders(props) {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/order/admin`, {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
-            if (response.status === 200) {
+            if (response.status === 200 && response.data.data) {
                 const ordersData = response.data.data;
                 setFilteredOrders(ordersData)
                 return setOrders(ordersData)

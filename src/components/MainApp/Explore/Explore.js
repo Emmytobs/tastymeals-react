@@ -10,7 +10,6 @@ import MealCard from '../../../Utilities/MealCard/MealCard'
 
 function Explore(props) {
     const [meals, setMeals] = useState([])
-
     const useQuery = () => {
         return new URLSearchParams(useLocation().search);
     }
@@ -19,12 +18,12 @@ function Explore(props) {
     const columnFilter = useQuery().get('columnFilter');
     const categoryName = useQuery().get('categoryName');
     const searchQuery = useQuery().get('q');
-    // console.log(searchQuery)
+    const orderBy = useQuery().get('order_by');
 
     const fetchMeals = async () => {
         try {
             let response;
-            if (categoryName) {
+            if (columnFilter) {
                 response = await axios.get(
                     `${process.env.REACT_APP_API_URL}/meal?columnFilter=${columnFilter}`,
                     { headers: { 'Authorization': 'Bearer '+ props.accessToken }}
@@ -34,8 +33,16 @@ function Explore(props) {
                     `${process.env.REACT_APP_API_URL}/meal?q=${searchQuery}`,
                     { headers: { 'Authorization': 'Bearer '+ props.accessToken }}
                 )
+            } else if (orderBy) {
+                response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/meal?order_by=${orderBy}`,
+                    { headers: { 'Authorization': 'Bearer '+ props.accessToken }}
+                )
             }
-            if (response.status === 200) {
+            if(!response) {
+                setMeals('Start by searching for a meal, or click on the categories above')
+            }
+            if (response && response.status === 200) {
                 return setMeals(response.data.data);
             }
         } catch (error) {
@@ -52,13 +59,13 @@ function Explore(props) {
     useEffect(() => {
         // Everytime the query params change, fetch meals and filter by the updated query params
         fetchMeals()
-    }, [columnFilter, searchQuery])
+    }, [useLocation().search])
 
     return (
         <>
         <Header {...props} />
         <div className={styles.exploreContainer}>
-            <h2 className={styles.pageTitle}>{categoryName}</h2>
+            <h2 className={styles.pageTitle}>{searchQuery && `'${searchQuery}'`}</h2>
             <div className={styles.tabs}>
                 { props.foodCategories.map((category, index) => 
                     <Tab 
@@ -66,6 +73,7 @@ function Explore(props) {
                         id={category.categoryid} 
                         name={category.categoryname}
                         history={props.history}
+                        active={categoryName === category.categoryname}
                     >
                         {category.categoryname}
                     </Tab>)
@@ -97,7 +105,7 @@ function Explore(props) {
             }
 
 
-            <ExploreNav />
+            <ExploreNav history={props.history} />
         </div>
         </>
     )
@@ -110,21 +118,52 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, null)(Explore)
 
-function ExploreNav() {
+function ExploreNav(props) {
+    const [radioValue, setRadioValue] = useState('')
+    const handleFilterChange = (e) => {
+        const categoryName = e.target.getAttribute('data-filter-name')
+        setRadioValue(e.target.value)
+    }
+    useEffect(() => {
+        if (radioValue) {
+            props.history.push(`/app/explore${radioValue}`)
+        }
+    }, [radioValue])
     return (
         <div className={styles.exploreNav}>
             <div>
                 <div>
-                    <input id="popular" name="filter" type="radio"/>
+                    <input 
+                        id="popular" 
+                        name="filter" 
+                        type="radio"
+                        value='?order_by=order_count:desc'
+                        data-filter-name="Most Popular"
+                        checked={radioValue === '?order_by=order_count:desc'}
+                        onChange={handleFilterChange}/>
                     <label htmlFor="popular">Popular</label>
                 </div>
                 <div>
-                    <input id="top-rated" name="filter" type="radio"/>
+                    <input 
+                        id="top-rated" 
+                        name="filter" 
+                        type="radio"
+                        value="?order_by=rated_count:desc"
+                        data-filter-name="Top rated"
+                        checked={radioValue === '?order_by=rated_count:desc'}
+                        onChange={handleFilterChange}/>
                     <label htmlFor="top-rated">Top rated</label>
                 </div>
                 <div>
-                    <input id="least-expensive" name="filter" type="radio"/>
-                    <label htmlFor="least-expensive">Least expensive</label>
+                    <input 
+                        id="least-expensive" 
+                        name="filter" 
+                        type="radio"
+                        value='?order_by=price:asc'
+                        data-filter-name="Lowest Price"
+                        checked={radioValue === '?order_by=price:asc'}
+                        onChange={handleFilterChange}/>
+                    <label htmlFor="least-expensive">By Lowest Price</label>
                 </div>
             </div>
         </div>

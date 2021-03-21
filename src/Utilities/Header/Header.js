@@ -6,11 +6,14 @@ import Overlay from '../Overlay'
 import cart from './icons/cart.png';
 import cancel from './icons/cancel.png';
 import search from './icons/search.png';
+import menu from './icons/menu.png';
 
 import styles from './Header.module.css';
-import { removeOrder } from '../../redux/dispatchers';
-import { PrimaryButton } from '../Buttons';
+import { addOrder, removeOrder } from '../../redux/dispatchers';
+import { PrimaryButton, SecondaryButton } from '../Buttons';
 import axios from 'axios';
+import { Input } from '../Form';
+import { Form, Option, Select } from '../Form/Form';
 
 function Header(props) {
     const [cartOverlay, setCartOverlay] = useState(false);
@@ -28,25 +31,35 @@ function Header(props) {
     }
     
     const submitOrder = async () => {
+        // const order = {
+        //     mealId: props.order.mealid,
+        //     restaurantId: props.order.restaurantid,
+        //     ...orderData
+        // };
+        // try {
+        //     const response = await axios.post(
+        //         `${process.env.REACT_APP_API_URL}/order`,
+        //         order,
+        //         { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
+        //     )
+        //     console.log(response)
+        // } catch (error) {
+        //     if (!error.response) {
+        //         return console.log("No internet")
+        //     }
+        //     console.log(error)
+        // }
         const order = {
             mealId: props.order.mealid,
             restaurantId: props.order.restaurantid,
             ...orderData
         };
+        addOrder(order, props.dispatch);
+        props.history.push('/app/checkout')
+    }
 
-        try {
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/order`,
-                order,
-                { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
-            )
-            console.log(response)
-        } catch (error) {
-            if (!error.response) {
-                return console.log("No internet")
-            }
-            console.log(error)
-        }
+    const cancelOrder = () => {
+        removeOrder(null, props.dispatch)
     }
 
     const toggleCart = () => setCartOverlay(!cartOverlay);
@@ -84,7 +97,13 @@ function Header(props) {
     return (
         <header className={styles.header}>
             <div className={styles.menuBtn_logo}>
-                <button onClick={toggleMenu}>Menu</button>
+                <img 
+                    src={menu} 
+                    alt='Menu icon' 
+                    className="dp-size" 
+                    onClick={toggleMenu} 
+                    title="Open side menu"
+                    style={{ cursor: 'pointer' }} />
                 <Link to="/app" title="Back to homepage" >
                     <h3 className={'remove-margin ' + styles.logo}>Tasty <span className="text-highlight">Meals</span></h3>
                 </Link>
@@ -104,7 +123,11 @@ function Header(props) {
                 <div className={styles.ordersBtn} onClick={toggleCart} >
                     <div className='d-flex justify-center align-center'> 
                         <img src={cart} alt="cart" className={styles.orderIcon}/>
-                        <span className={styles.orderCount}>1</span>
+                        <span className={styles.orderCount}>
+                            {
+                                Object.keys(props.order).length ? 1 : 0
+                            }
+                        </span>
                     </div>
                 </div>
             </div>
@@ -113,33 +136,47 @@ function Header(props) {
             cartOverlay && 
             <div className={'container ' + styles.orderContainer}>
                 <img src={cancel} alt="Close order modal" title="Close modal" className={styles.closeOrderModal} onClick={toggleCart} />
-                <h4>Your Order</h4>
-                <div className={styles.order}>
-                    <p className={styles.restaurantName}>
-                        From 
-                        <Link to={`/app/restaurant/${props.order.restaurantid}`} className="inline-link">
-                            {props.order.name}
-                        </Link>
-                    </p>
-                    <div className={'d-flex justify-between align-center ' + styles.quantity_price}>
-                        <div>
-                            <select name="orderQuantity" value={orderData.orderQuantity} onChange={handleOrderData}>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                            <p>{props.order.mealname}</p>
+                {
+                Object.keys(props.order).length ?
+                <>
+                    <h4>Your Order</h4>
+                    <div className={styles.order}>
+                        <p className={styles.restaurantName}>
+                            From 
+                            <Link to={`/app/restaurant/${props.order.restaurantid}`} className="inline-link">
+                                {props.order.name}
+                            </Link>
+                        </p>
+                        <div className={'d-flex justify-between align-center ' + styles.quantity_price}>
+                            <div>
+                                <Select name="orderQuantity" value={orderData.orderQuantity} onChange={handleOrderData}>
+                                    <Option>1</Option>
+                                    <Option>2</Option>
+                                    <Option>3</Option>
+                                </Select>
+                                <p>{props.order.mealname}</p>
+                            </div>
+                            
+                            <span>{props.order.price * orderData.orderQuantity}</span>
                         </div>
-                        
-                        <span>{props.order.price * orderData.orderQuantity}</span>
+                        <Input 
+                            name="orderNote" 
+                            value={orderData.orderNote}
+                            onChange={handleOrderData}
+                            style={{ marginTop: '20px' }}
+                            placeholder="(Optional) Add a note for the restaurant" />
+                        <PrimaryButton 
+                            onClick={submitOrder}
+                            style={{ marginTop: "20px", width: "100%" }}>Checkout</PrimaryButton>
+                        <SecondaryButton 
+                            onClick={cancelOrder}
+                            style={{ marginTop: "10px", width: "100%" }}>Cancel order</SecondaryButton>
                     </div>
-                    <input 
-                        name="orderNote" 
-                        value={orderData.orderNote}
-                        onChange={handleOrderData}
-                        placeholder="(Optional) Add a note for the restaurant" />                
-                    <PrimaryButton onClick={submitOrder}>Checkout</PrimaryButton>
-                </div>
+                </> : 
+                <>
+                <h4>You have no order.</h4>
+                </>
+                }
             </div>
             }
 

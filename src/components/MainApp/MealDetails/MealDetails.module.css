@@ -1,9 +1,17 @@
+.mealDetailsWrapper{
+    padding: 30px;
+    margin: 70px 0;
+}
+
 .mealDetailsContainer {
-    background: var(--container);
-    transition: var(--color-mode-transition);
-    margin-left: 10%;
+    width: 70%;
+    margin: 0 auto;
     padding: 20px;
     border-radius: 5px;
+}
+.mealDetailsContainer > * {
+    display: inline-block;
+    vertical-align: middle;
 }
 .imageContainer {
     width: 330px; 
@@ -22,6 +30,8 @@
 .mealDetails > p {
     margin: 10px 0;
 }
+
+
 .price_addToCart {
     margin-top: 30px;
     width: 70%;
@@ -29,13 +39,60 @@
 
 
 .moreContent {
-    background: var(--container);
-    transition: var(--color-mode-transition);
-    margin: 50px 0 0  10%;
+    /* background: var(--container);
+    transition: var(--color-mode-transition); */
     padding: 20px;
     border-radius: 5px;
     height: 500px;
 }
+.ownReviewContainer,
+.currentUserReview {
+    width: 70%;
+    margin: 30px auto 0;
+}
+.reviewForm {
+    width: 70%;
+    margin: 20px auto;
+}
+.reviewForm > button {
+    margin-top: 20px;
+}
+
+.otherReviews {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+    grid-gap: 20px;
+}
+.reviewCard {
+    padding: 10px 20px;
+}
+.rating {
+    width: 30px;
+    height: 30px;
+    font-size: .9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--brand-color);
+    color: #fff;
+    margin-left: auto;
+}
+.reviewContent {
+    line-height: 25px;
+}
+.user {
+    margin-top: 20px;
+}
+
+.relatedMealsWrapper {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+    grid-gap: 20px;
+}
+
 .tabContainer {
     height: 40px;
 }

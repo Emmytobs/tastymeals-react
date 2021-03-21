@@ -58,9 +58,7 @@ function CreateRestaurantProfile(props) {
 
     return (
         <div className={styles.componentContainer}>
-            <div className={styles.pageTitle}>
-                <h2>Create your restaurant profile</h2>
-            </div>
+            <h3 className={styles.pageTitle}>Create your restaurant profile</h3>
             <div>
                 <Formik
                     initialValues={{ name:'', address:'', city:'', country:'' }}
@@ -98,8 +96,15 @@ function CreateRestaurantProfile(props) {
                                 onChange={handleChange}
                                 value={values.country}
                             />
-                            <input type="file" placeholder="Upload an image" onChange={uploadImage} />
-                            <PrimaryButton type="submit">Create profile</PrimaryButton>
+                            <p>
+                                Choose an banner image to be displayed when customers view your restaurant profile:
+                                <input type="file" placeholder="Upload an image" onChange={uploadImage} />
+                            </p>
+                            <PrimaryButton type="submit" style={{
+                                display: 'block',
+                                width: '50%',
+                                margin: '0 auto'
+                            }} >Create profile</PrimaryButton>
                         </Form>
                     )}
                 </Formik>
