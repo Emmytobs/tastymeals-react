@@ -62,7 +62,7 @@ function Checkout(props) {
                         </Select>
                     </div>
                     <p>Price: {props.order.price * orderDetails.qty}</p>
-                    <Input name="note" value={orderDetails.note} onChange={handleOrderChange} />
+                    <Input name="note" placeholder="Optionally leave a note for the restaurant" value={orderDetails.note} onChange={handleOrderChange} />
                     <PrimaryButton 
                         onClick={() => {
                             handleFlutterPayment({

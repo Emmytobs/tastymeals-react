@@ -53,7 +53,8 @@ body {
   line-height: 1.75;
 }
 
-p {
+a { text-decoration: none; }
+p, a {
   margin: 0;
   /* margin-bottom: 1rem; */
   color: var(--text-color);
@@ -86,7 +87,6 @@ h5 {font-size: 1.25rem;}
 h6 {font-size: 1.1rem;}
 
 small, .text-small {font-size: 0.8rem;}
-a { text-decoration: none; color: initial }
 
 /* Utlity classes */
 .text-bold {

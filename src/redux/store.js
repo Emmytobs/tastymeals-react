@@ -17,7 +17,8 @@ export const initialState = {
         'TOP RATED': [],
         'SEARCHED': []
     },
-    adminRestaurantProfile: ''
+    adminRestaurantProfile: '',
+    colorMode: 'light'
 }
 
 function loadStoreInLocalStorage() {

@@ -11,6 +11,7 @@ import AdminPage from '../AdminPage/AdminPage';
 import { Notifications } from './Notifications';
 import Favorites from './Favorites/Favorites';
 import Checkout from './Checkout/Checkout';
+import Profile from './Profile/Profile';
 
 function MainApp(props) {
 
@@ -24,6 +25,7 @@ function MainApp(props) {
             <Route path={`${url}/notifications`} exact component={Notifications} />
             <Route path={`${url}/favorites`} exact component={Favorites} />
             <Route path={`${url}/checkout`} exact component={Checkout} />
+            <Route path={`${url}/profile`} exact component={Profile} />
             <Route path={`${url}/meal/:mealId`} exact component={MealDetails} />
             <Route path={`${url}/restaurant/:restaurantId`} exact component={RestaurantDetails} />
             {

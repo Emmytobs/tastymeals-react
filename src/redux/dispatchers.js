@@ -6,7 +6,8 @@ import {
     SAVE_ADMIN_RESTAURANT_PROFILE,
     ADD_ORDER,
     REMOVE_ORDER,
-    SAVE_FOOD_CATEGORIES
+    SAVE_FOOD_CATEGORIES,
+    CHANGE_COLOR_THEME
 } from './actionNames'
 
 export function saveTokens(payload, dispatch) {
@@ -38,4 +39,9 @@ export function removeOrder(payload, dispatch) {
 
 export function saveFoodCategories(payload, dispatch) {
     dispatch({ type: SAVE_FOOD_CATEGORIES, payload })
+}
+
+
+export function changeColorTheme(payload, dispatch) {
+    dispatch({ type: CHANGE_COLOR_THEME, payload })
 }

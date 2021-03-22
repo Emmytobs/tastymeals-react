@@ -7,13 +7,14 @@ import cart from './icons/cart.png';
 import cancel from './icons/cancel.png';
 import search from './icons/search.png';
 import menu from './icons/menu.png';
+import lightTheme from './icons/light-theme.png';
+import darkTheme from './icons/dark-theme.png';
 
 import styles from './Header.module.css';
-import { addOrder, removeOrder } from '../../redux/dispatchers';
+import { addOrder, changeColorTheme, removeOrder } from '../../redux/dispatchers';
 import { PrimaryButton, SecondaryButton } from '../Buttons';
-import axios from 'axios';
 import { Input } from '../Form';
-import { Form, Option, Select } from '../Form/Form';
+import { Option, Select } from '../Form/Form';
 
 function Header(props) {
     const [cartOverlay, setCartOverlay] = useState(false);
@@ -100,10 +101,11 @@ function Header(props) {
                 <img 
                     src={menu} 
                     alt='Menu icon' 
-                    className="dp-size" 
                     onClick={toggleMenu} 
                     title="Open side menu"
-                    style={{ cursor: 'pointer' }} />
+                    width="33px"
+                    height="33px"
+                    style={{ cursor: 'pointer', marginLeft: '20px' }} />
                 <Link to="/app" title="Back to homepage" >
                     <h3 className={'remove-margin ' + styles.logo}>Tasty <span className="text-highlight">Meals</span></h3>
                 </Link>
@@ -134,7 +136,7 @@ function Header(props) {
             
             { // Overlay for the cart items
             cartOverlay && 
-            <div className={'container ' + styles.orderContainer}>
+            <div className={styles.orderContainer}>
                 <img src={cancel} alt="Close order modal" title="Close modal" className={styles.closeOrderModal} onClick={toggleCart} />
                 {
                 Object.keys(props.order).length ?
@@ -163,7 +165,6 @@ function Header(props) {
                             name="orderNote" 
                             value={orderData.orderNote}
                             onChange={handleOrderData}
-                            style={{ marginTop: '20px' }}
                             placeholder="(Optional) Add a note for the restaurant" />
                         <PrimaryButton 
                             onClick={submitOrder}
@@ -207,15 +208,33 @@ function Header(props) {
                             </ul>
                             <div className={styles.profile}>
                                 <Link to="/app/profile">
-                                    <img 
+                                    {/* <img 
                                         src={cancel} 
                                         alt="Your profile pic" 
                                         title="Your profile picture" 
-                                        className='dp-size' />
+                                        className='dp-size' /> */}
                                     <span>{props.firstname} {props.lastname}</span>
                                 </Link>
                                 <PrimaryButton onClick={logoutUser}>Logout</PrimaryButton>
                             </div>
+                        </div>
+                       
+                        <div className={styles.themeToggleButtonsContainer}>
+                            {
+                                props.colorMode === 'dark' ?
+                                <img 
+                                    src={lightTheme} 
+                                    alt="Switch to light theme" 
+                                    className='icon-size pointer' 
+                                    title="Switch to light theme"
+                                    onClick={() => changeColorTheme('light', props.dispatch)}  /> :
+                                <img 
+                                    src={darkTheme} 
+                                    alt="Switch to dark theme" 
+                                    className='icon-size pointer' 
+                                    title="Switch to dark theme"
+                                    onClick={() => changeColorTheme('dark', props.dispatch)} />
+                            }
                         </div>
                     </div>
                 </Overlay>
@@ -230,7 +249,8 @@ const mapStateToProps = (state) => ({
     lastname: state.user.lastname,
     type: state.user.type,
     order: state.order,
-    accessToken: state.accessToken
+    accessToken: state.accessToken,
+    colorMode: state.colorMode
 })
 
 export default connect(mapStateToProps, null)(Header);

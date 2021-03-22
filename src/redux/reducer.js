@@ -6,7 +6,8 @@ import {
     SAVE_ADMIN_RESTAURANT_PROFILE,
     ADD_ORDER,
     REMOVE_ORDER,
-    SAVE_FOOD_CATEGORIES
+    SAVE_FOOD_CATEGORIES,
+    CHANGE_COLOR_THEME
 } from './actionNames'
 
 import { initialState } from './store'
@@ -33,6 +34,10 @@ function reducer(state=initialState, action) {
 
         case SAVE_FOOD_CATEGORIES:
             return { ...state, foodCategories: action.payload }
+
+
+        case CHANGE_COLOR_THEME:
+            return { ...state, colorMode: action.payload }
 
         default:
             return state    

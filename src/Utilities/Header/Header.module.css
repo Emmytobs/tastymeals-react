@@ -132,6 +132,10 @@
     margin: 20px auto 0;
     width: 100%;
 }
+.themeToggleButtonsContainer {
+    text-align: center;
+    margin-top: 20vh;
+}
 
 .closeOrderModal {
     width: 20px;
@@ -139,6 +143,8 @@
     cursor: pointer;
 }
 .orderContainer {
+    background: var(--bg-color);
+    padding: 20px;
     position: fixed;
     top: 80px;
     right: 20px;
@@ -156,7 +162,7 @@
 }
 
 .quantity_price {
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 .quantity_price > div > * {
