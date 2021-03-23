@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Overlay.module.css'
 
 export function Overlay(props) {
+    useEffect(() => {
+        const body = document.querySelector('body');
+        body.style.overflowY = 'hidden'
+        return () => {
+            body.style.overflowY = 'scroll'
+        }
+    }, [])
+    
     const handleClick = (e) => {
         const { id } = e.target;
     
