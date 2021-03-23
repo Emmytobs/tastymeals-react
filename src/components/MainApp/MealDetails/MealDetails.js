@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PrimaryButton } from '../../../Utilities/Buttons'
+import { PrimaryButton, SecondaryButton } from '../../../Utilities/Buttons'
 import styles from './MealDetails.module.css'
 
 import { addOrder } from '../../../redux/dispatchers'
@@ -12,6 +12,7 @@ import axios from 'axios'
 import Footer from '../../../Utilities/Footer'
 import { Textarea } from '../../../Utilities/Form/Form'
 import MealCard from '../../../Utilities/MealCard/MealCard'
+import Overlay from '../../../Utilities/Overlay'
 
 function MealDetails(props) {
     const [meal, setMeal] =  useState([]);
@@ -20,6 +21,8 @@ function MealDetails(props) {
     const [userCanReviewMeal, setUserCanReviewMeal] = useState(false);
     const [reviewByUser, setReviewByUser] = useState(false);
     const [message, setMessage] = useState('')
+    const [replaceOrderModal, setReplaceOrderModal] = useState(false);
+    const [orderExistsModal, setOrderExistsModal] = useState(false);
 
     const [activeTab, setActiveTab] = useState('reviews');
     const toggleActiveTab = (e) => {
@@ -27,13 +30,19 @@ function MealDetails(props) {
         setActiveTab(name)
     }
 
-    const orderMeal = () => {
+    const orderMeal = (options) => {
+        // Check if the order's meal id is the same as that of the meal user wants to order
+        if (props.order.mealid === meal.mealid) {
+            return setOrderExistsModal(true)
+        }
+        // Check it an order is present already
         const orderIsPresent = Object.keys(props.order).length;
-        if (orderIsPresent) {
-            return console.log('You already have an order. Do you want to replace it with?')
+        if (orderIsPresent && !options.replace) {
+            return setReplaceOrderModal(true)
         }
         const { mealid, mealname, price, name, restaurantid } = meal;
         addOrder({ mealid, mealname, price, name, restaurantid }, props.dispatch)
+        setReplaceOrderModal(false)
     }
     const { mealId } = useParams();
 
@@ -241,6 +250,16 @@ function MealDetails(props) {
                 }
             </div>
         </div>
+        {
+            replaceOrderModal &&
+            <ReplaceOrderModal 
+                setReplaceOrderModal={setReplaceOrderModal} 
+                replaceOrderFunction={() => orderMeal({ replace: true })} mealname={meal.mealname} />
+        }
+        {
+            orderExistsModal &&
+            <OrderExistsModal setOrderExistsModal={setOrderExistsModal} />
+        }
         <Footer />
         </>
     )
@@ -249,3 +268,30 @@ function MealDetails(props) {
 const mapStateToProps = (state) => ({ accessToken: state.accessToken, order: state.order, userId: state.user.userId })
 
 export default connect(mapStateToProps, null)(MealDetails)
+
+function ReplaceOrderModal(props) {
+    return (
+        <Overlay closeOverlayHandler={props.setReplaceOrderModal} targetId="target">
+            <div className={'container '+ styles.replaceOrderModal}>
+                <h4>You already have an order.</h4>
+                <h6 style={{ marginTop: '20px' }}>Do you want to replace it with {props.mealname}?</h6>
+                <div className={'d-flex justify-end align-center ' + styles.ctaButtons}>
+                    <SecondaryButton id="target">Cancel</SecondaryButton>
+                    <PrimaryButton onClick={props.replaceOrderFunction}>Replace</PrimaryButton>
+                </div>
+            </div>
+        </Overlay>
+    )
+}
+
+function OrderExistsModal(props) {
+    return (
+        <Overlay closeOverlayHandler={props.setOrderExistsModal}>
+            <div className={'container'}>
+                <p>
+                    An order already exists for the same item
+                </p>
+            </div>
+        </Overlay>
+    )
+}

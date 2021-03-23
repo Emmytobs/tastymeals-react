@@ -27,7 +27,7 @@ function reducer(state=initialState, action) {
             return { ...state, adminRestaurantProfile: { ...action.payload } }
 
         case ADD_ORDER:
-            return { ...state, order: {...state.order, ...action.payload} }
+            return { ...state, order: { ...action.payload} }
         
         case REMOVE_ORDER:
             return { ...state, order: {} }

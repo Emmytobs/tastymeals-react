@@ -9,7 +9,6 @@ import Accounts from './components/Accounts/Accounts';
 
 function App(props) {
   const { colorMode } = props;
-  console.log(colorMode)
   const bodyElement = document.querySelector('body');
   if (colorMode === 'dark') {
     bodyElement.classList.replace('light', colorMode);

@@ -114,3 +114,20 @@
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
+
+
+/* 
+For the replace order modal
+*/
+.replaceOrderModal {
+    padding: 50px;
+}
+.replaceOrderModal > * {
+    text-align: center;
+}
+.ctaButtons {
+    margin-top: 30px;
+}
+.ctaButtons > button {
+    margin-right: 12px;
+}

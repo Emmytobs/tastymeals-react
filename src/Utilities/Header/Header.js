@@ -51,8 +51,7 @@ function Header(props) {
         //     console.log(error)
         // }
         const order = {
-            mealId: props.order.mealid,
-            restaurantId: props.order.restaurantid,
+            ...props.order,
             ...orderData
         };
         addOrder(order, props.dispatch);
