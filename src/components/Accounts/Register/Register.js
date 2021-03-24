@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 
 function Register(props) {
     const [userType, setUserType] = useState('CUSTOMER');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const initialValues = {
         firstname: '',
@@ -33,21 +34,25 @@ function Register(props) {
             if (response.status === 200) {
                 // Set access and refresh token
                 const { accessToken, refreshToken } = response.data.data;
+                setIsSubmitting(false)
                 saveTokens([ accessToken, refreshToken ], props.dispatch)
                 props.history.push('/app')
             }
         } catch (error) {
+            setIsSubmitting(false)
             console.log(error)
         }
     }
 
     const registerUser = async (formData) => {
+        setIsSubmitting(true);
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/register`, formData);
             if (response.status === 201) {
                 loginNewUser({ email: formData.email, password: formData.password })
             }
         } catch (error) {
+            setIsSubmitting(false)
             console.log(error.response);
         }
     }
@@ -55,7 +60,7 @@ function Register(props) {
     return (
         <div className={styles.registerContainer}>
             <h2>Tasty <span className="text-highlight">Meals</span></h2>
-            <div className={'container '+ styles.formContainer}>
+            <div style={{ opacity: isSubmitting ? 0.7 : 1 }} className={'container '+ styles.formContainer}>
                 <h3>Register Account</h3>
                 <p>What do you want to do?</p>
                 <Formik
@@ -70,7 +75,7 @@ function Register(props) {
                             <div className={styles.selectUserType} onChange={onChangeUserType}>
                                 <label for="buy">
                                     I want to buy 
-                                    <input type="radio" name="type" id="buy" value="CUSTOMER" checked={userType === 'CUSTOMER'} />
+                                    <input type="radio" name="type" id="buy" onChange={handleChange} value="CUSTOMER" checked={userType === 'CUSTOMER'} />
                                 </label>
                                 <label for="sell">
                                     I want to sell

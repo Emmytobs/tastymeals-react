@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -19,6 +19,9 @@ function App(props) {
   return (
     <>    
     <Switch>
+      <Route path="/" exact>
+        <Redirect to="/account" />
+      </Route>
       <Route path="/account" component={Accounts} />
       {/* <Route path="/app" component={MainApp} /> */}
       <ProtectedRoute path="/app" component={MainApp} />
