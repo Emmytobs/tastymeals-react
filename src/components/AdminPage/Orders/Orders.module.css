@@ -25,6 +25,8 @@
 
 .tableContainer {
     width: 100%;
+    height: 70vh;
+    overflow-y: auto;
 }
 
 /* For the order modal */

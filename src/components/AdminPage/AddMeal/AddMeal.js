@@ -9,6 +9,7 @@ import { Form, Input } from '../../../Utilities/Form'
 import { PrimaryButton } from '../../../Utilities/Buttons'
 
 import styles from './AddMeal.module.css';
+import { Option, Select } from '../../../Utilities/Form/Form';
 
 function AddMeal(props) {
     const [formData, setFormData] = React.useState(null);
@@ -88,12 +89,16 @@ function AddMeal(props) {
                             placeholder="Set the price"
                             value={values.price} 
                             onChange={handleChange} />
-                        <select name="category" value={values.category} onChange={handleChange}>
-                            <option>Choose Category</option>
+                        <Select 
+                            name="category" 
+                            value={values.category} 
+                            onChange={handleChange}
+                            style={{ width: '100%' }}>
+                            <Option>Choose Category</Option>
                             {props.foodCategories.map((category, index) => (
-                                <option key={index} value={category.categoryid}>{category.categoryname}</option>
+                                <Option key={index} value={category.categoryid}>{category.categoryname}</Option>
                             ))}
-                        </select>
+                        </Select>
 
                         <PrimaryButton type="submit">Add meal</PrimaryButton>
                     </Form>

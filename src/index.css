@@ -119,6 +119,15 @@ small, .text-small {font-size: 0.8rem;}
 .d-flex {
   display: flex;
 }
+.d-block {
+  display: block;
+}
+.d-inline-block {
+  display: inline-block
+}
+.d-inline {
+  display: inline
+}
 
 .justify-start {
   justify-content: flex-start;

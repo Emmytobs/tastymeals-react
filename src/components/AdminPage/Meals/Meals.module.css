@@ -24,6 +24,8 @@
 
 .tableContainer {
     width: 100%;
+    height: 70vh;
+    overflow-y: auto;
 }
 /* .table {
     width: initial;
@@ -31,4 +33,19 @@
 .mealImage {
     object-position: center;
     object-fit: cover
+}
+
+.viewMealModal {
+    width: 600px;
+    padding: 50px;
+    border-radius: 7px;
+}
+.viewMealModal div > .inputGroup > * {
+    margin-bottom: 20px;
+}
+.ctaButtons {
+    margin-top: 20px;
+}
+.ctaButtons > * {
+    margin-right: 10px
 }

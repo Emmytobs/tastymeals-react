@@ -20,7 +20,8 @@ export function Input(props) {
 export function Textarea(props) {
     return (
         <div className={styles.textareaContainer}>
-            <textarea className={styles.textarea} {...props} />
+            {/* Textarea by default will be vertically resizeable */}
+            <textarea style={{ resize: props.resize ? props.resize : 'vertical' }} className={styles.textarea} {...props} />
         </div>
     )
 }
