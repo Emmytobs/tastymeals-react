@@ -1,0 +1,19 @@
+.componentContainer {
+    margin-top: 100px;
+}
+
+.componentContainer form {
+    width: 45%;
+    padding: 30px;
+    margin: 0 auto;
+}
+
+.componentContainer form > * {
+    margin-bottom: 20px;
+}
+
+.pageTitle {
+    margin-bottom: 20px;
+    text-align: center;
+}
+

@@ -1,13 +1,156 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --brand-color: #FD8867;
+  --color-mode-transition: background .5s ease-in-out, color 1s ease-in-out;
+
+  --light-bg: #fbfbfb;
+  --light-container-bg: #fff;
+
+  --dark-bg: #332B2B;
+  --dark-container-bg: #232222;
+  
+  --light-heading-text: #222;
+  --light-text: #444;
+
+  --dark-heading-text: #F3EFEF;
+  --dark-text: #E3E2E2;
+
+  --dark-border: #fff;
+  --light-border: #ccc;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {font-size: 100%;} /*16px*/
+
+.light {
+  --bg-color: var(--light-bg);
+  --text-color: var(--light-text);
+  --heading: var(--light-heading-text);
+  --container: var(--light-container-bg);
+  --border: var(--light-border)
+}
+
+.dark {
+  --bg-color: var(--dark-bg);
+  --text-color: var(--dark-text);
+  --heading: var(--dark-heading-text);
+  --container: var(--dark-container-bg);
+  --border: var(--dark-border)
+}
+
+.container {
+  background: var(--container);
+  transition: background .5s ease-in-out;
+  padding: 20px;
+}
+
+body {
+  background-color: var(--bg-color);
+  margin: 0;
+  width: 100%;
+  color: var(--text-color);
+  transition: background .5s ease-in-out, color 1s ease-in-out;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+a { text-decoration: none; }
+p, a {
+  margin: 0;
+  /* margin-bottom: 1rem; */
+  color: var(--text-color);
+  transition: background .5s ease-in-out, color 1s ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading);
+  transition: background .5s ease-in-out, color 1s ease-in-out;
+  margin: 0;
+  /* margin: 3rem 0 1.38rem; */
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.052rem;
+}
+
+h2 {font-size: 2.441rem;}
+
+h3 {font-size: 1.953rem;}
+
+h4 {font-size: 1.563rem;}
+
+h5 {font-size: 1.25rem;}
+
+h6 {font-size: 1.1rem;}
+
+small, .text-small {font-size: 0.8rem;}
+
+/* Utlity classes */
+.text-bold {
+  font-weight: bold;
+}
+.text-highlight {
+  color: var(--brand-color);
+}
+.inline-link {
+  color: var(--brand-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.icon-size {
+  width: 24px;
+  height: 24px;
+}
+.dp-size {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.remove-margin {
+  margin: 0;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.d-flex {
+  display: flex;
+}
+.d-block {
+  display: block;
+}
+.d-inline-block {
+  display: inline-block
+}
+.d-inline {
+  display: inline
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-end {
+  align-items: flex-end;
 }

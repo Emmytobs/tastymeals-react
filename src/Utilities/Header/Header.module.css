@@ -1,0 +1,174 @@
+/*  A flex container */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-color);
+    transition: var(--color-mode-transition);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    padding: 10px;
+    z-index: 99;
+}
+
+.menuBtn_logo > * { 
+    display: inline-block;
+    vertical-align: middle;
+}
+.menuBtn_logo > button {
+    margin-left: 10px;
+}
+.logo {
+    text-align: center;
+    margin-left: 30px;
+}
+.logo > span {
+    margin-left: -5px;
+}
+
+.headerComponents {
+    width: 550px;
+}
+.headerComponents > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.searchContainer {
+    background: var(--container);
+    color: var(--text-color);
+    transition: all .5s ease-in-out, color 1s ease-in-out;
+    border-bottom: 2px solid var(--border);
+    padding: 10px;
+    border-radius: 5px;
+    width: 70%;
+}
+.searchContainer > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.searchContainer > img {
+    width: 20px;
+    height: 20px;
+}
+.searchForm {
+    width: 83%;
+}
+.searchForm > input {
+    border-width: 0;
+    height: 24px;
+    font-size: 1em;
+    background: transparent;
+    color: var(--text-color);
+    margin: auto 10px;
+    width: 100%;
+    outline: none;
+}
+
+.ordersBtn {
+    background: var(--brand-color);
+    width: 50px;
+    padding: 2px 5px;
+    border-radius: 50px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.ordersBtn > div {
+    width: 100%;
+    height: 100%;
+}
+.orderIcon {
+    width: 18px;
+    height: 18px;
+}
+.orderCount {
+    margin-left: 5px;
+    font-size: 0.9em;
+    color: #fff;
+}
+
+/* For the menu modal */
+.menuWrapper {
+    position: absolute;
+    min-height: 100vh;
+    width: 200px;
+    left: 0;
+    top: 0;
+}
+
+.profile {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 20px;
+}
+.profile > a {
+    margin: 0 auto;
+}
+.profile > a > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.profile img {
+    width: 24px;
+    height: 24px;
+}
+.profile span {
+    margin-left: 20px;
+}
+.menuContainer > ul {
+    width: 70%;
+    margin: 40px auto 0;
+    padding: 0;
+}
+.menuContainer li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+.menuContainer button {
+    display: block;
+    margin: 20px auto 0;
+    width: 100%;
+}
+.themeToggleButtonsContainer {
+    text-align: center;
+    margin-top: 20vh;
+}
+
+.closeOrderModal {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.orderContainer {
+    background: var(--bg-color);
+    padding: 20px;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 350px;
+    max-height: 300px;
+    min-height: 100px;
+    overflow: auto;
+    box-shadow: 10px 10px 50px 0px rgba(0,0,0,0.1), -10px 10px 50px 0px rgba(0,0,0,0.1);
+}
+.orderContainer > h4 {
+    margin: 10px 0 10px 0;
+}
+.restaurantName > a {
+    margin-left: 10px;
+}
+
+.quantity_price {
+    margin: 15px 0;
+}
+
+.quantity_price > div > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.quantity_price > div > p {
+    margin-left: 10px;
+}

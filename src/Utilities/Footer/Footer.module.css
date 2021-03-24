@@ -1,0 +1,9 @@
+.footerContainer {
+    background: var(--brand-color);
+    width: 100%;
+    /* position: absolute;
+    bottom: 0; */
+}
+.footerContainer > div {
+    padding: 20px 40px;
+}

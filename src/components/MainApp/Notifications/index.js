@@ -1,0 +1,1 @@
+export { component as Notifications } from './Notifications'

@@ -1,0 +1,23 @@
+.table {
+    /* padding: 20px 5px; */
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.table th {
+    background: var(--brand-color);
+}
+.table th:first-child {
+    width: 40px;
+}
+.table tbody tr {
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.table td,
+.table th {
+    padding: 10px 20px;
+    text-align: center;
+    width: 12%;
+}

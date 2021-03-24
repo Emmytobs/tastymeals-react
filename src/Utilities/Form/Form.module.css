@@ -1,0 +1,54 @@
+.form {
+    padding: 10px;
+}
+
+.inputContainer {
+    border-bottom: 2px solid var(--border);
+    background: var(--container);
+    transition: all .5s ease-in-out;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.input {
+    border-width: 0;
+    height: 24px;
+    font-size: 1em;
+    background: transparent;
+    color: var(--text-color);
+    margin: auto 10px;
+    width: 100%;
+    outline: none;
+}
+
+.textareaContainer {
+    border-bottom: 2px solid var(--border);
+    background: var(--container);
+    transition: all .5s ease-in-out;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.textarea {
+    border-width: 0;
+    font-size: 1em;
+    background: transparent;
+    color: var(--text-color);
+    width: 100%;
+    outline: none;
+}
+
+.select {
+    height: 40px;
+    padding: 0 10px;
+    background: var(--container);
+    color: var(--text-color);
+    border: none;
+    outline: none;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border)
+}
+.option {
+    background: var(--container);
+    color: var(--text-color);
+}

@@ -1,0 +1,41 @@
+.homepageContainer {
+    margin-top: 100px;
+    padding: 20px 30px;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.sectionTitle > * {
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.tabs {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    transition: all 1s ease-in-out;
+}
+
+.tab {
+    cursor: pointer;
+    background: var(--container);
+    color: var(--text-color);
+    transition: all .2s ease-out;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 10px
+}
+.tab:hover {
+    background: var(--brand-color);
+    color: #fff
+}
+
+.mealWrapper {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 30px;
+}

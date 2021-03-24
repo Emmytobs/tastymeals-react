@@ -1,0 +1,29 @@
+.checkoutContainer {
+    margin: 50px 0;
+    padding:  0 30px;
+    min-height: 100vh;
+}
+.checkoutContainer > .pageTitle {
+    text-align: center;
+}
+
+.orderBox {
+    margin: 50px auto 0;
+    width: 60%;
+    padding: 50px;
+    border-radius: 10px;
+}
+.orderBox > .orderDetails {
+    flex: 0 0 60%;
+}
+.orderBox > .orderSummary {
+    flex: 0 0 30%;
+
+}
+
+.quantity {
+    margin-top: 10px;
+}
+.orderDetails > *:not(button) {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,24 @@
+.btn {
+    height: 38px;
+    padding: 0 20px;
+    border-radius: 5px;
+    border-width: 0;
+    cursor: pointer;
+}
+
+.primary {
+    background-color: var(--brand-color);
+    color: #fff;
+}
+
+.secondary {
+    background-color: #292F38;
+    color: #fff;
+}
+
+.outline {
+    border: 1px solid var(--brand-color);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background .5s ease-in-out, color 1s ease-in-out;
+}
