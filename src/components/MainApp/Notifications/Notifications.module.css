@@ -1,6 +1,7 @@
 .notificationsContainer {
     margin-top: 70px;
     padding: 30px;
+    min-height: 100vh;
 }
 
 .notificationsList {

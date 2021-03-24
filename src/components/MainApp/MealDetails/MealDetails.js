@@ -48,13 +48,12 @@ function MealDetails(props) {
 
     const submitReviewVerification = async () => {
         try {
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/rating/meal/${mealId}/order-verification`, 
-                {},
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_URL}/rating/meal/${mealId}/order-verification`,
                 { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
             )
             if (response.status === 204) {
-                setMessage(response.data.message)
+                setMessage('You can review this meal once you order it')
                 return;
             }
             return setUserCanReviewMeal(true);
@@ -122,7 +121,6 @@ function MealDetails(props) {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/rating/meal/${mealId}/user/${props.userId}`, {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
-            console.log(response.data.data)
             if (response.status === 204) {
                 return;
             }
@@ -190,7 +188,7 @@ function MealDetails(props) {
                                                 
                                         )
                                     }
-                                    {message && <p style={{ textAlign: 'center' }}>{message}</p>}
+                                    {message && <p style={{ textAlign: 'center', marginTop: '20px' }}>{message}</p>}
                                     
                                     {userCanReviewMeal &&
                                     <form className={styles.reviewForm}>
@@ -209,15 +207,19 @@ function MealDetails(props) {
                                 <>
                                 <div className={styles.otherReviews}>
                                     {
-                                    ratings.map((rating, index) => (
-                                        <div key={index} className={'container ' + styles.reviewCard}>
-                                            <p className={styles.rating}>{rating.rating}</p>
-                                            <p className={styles.reviewContent}>
-                                                {rating.review}
-                                            </p>
-                                            <p className={styles.user}>{rating.firstname} {rating.lastname}</p>
-                                        </div>
-                                    ))
+                                    ratings
+                                    .filter(rating => rating.ratingid !== reviewByUser.ratingid)
+                                    .map((rating, index) => 
+                                            (
+                                                <div key={index} className={'container ' + styles.reviewCard}>
+                                                    <p className={styles.rating}>{rating.rating}</p>
+                                                    <p className={styles.reviewContent}>
+                                                        {rating.review}
+                                                    </p>
+                                                    <p className={styles.user}>{rating.firstname} {rating.lastname}</p>
+                                                </div>
+                                            )
+                                    )
                                     }
                                 </div>
                                 </>

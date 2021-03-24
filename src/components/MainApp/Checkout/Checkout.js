@@ -10,6 +10,7 @@ import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
 import styles from './Checkout.module.css';
 import { removeOrder } from '../../../redux/dispatchers';
+import { Link } from 'react-router-dom';
 
 function Checkout(props) {
     const [orderDetails, setOrderDetails] = useState({
@@ -22,10 +23,11 @@ function Checkout(props) {
         orderQuantity: props.order.orderQuantity,
         cashAmount: ''
     })
+    const [successfulPayment, setSuccessfulPayment] = useState(null);
     
     const [deliveryFee, setDeliveryFee] = useState((props.order.price * orderDetails.orderQuantity) * 0.05)
     useEffect(() => {
-        if (orderDetails.deliveryType === 'Pickup') {
+        if (orderDetails.deliveryType === 'PICKUP') {
             return setDeliveryFee(0)
         }
         setDeliveryFee((props.order.price * orderDetails.orderQuantity) * 0.05);
@@ -34,7 +36,8 @@ function Checkout(props) {
     const config = {
         public_key: 'FLWPUBK-1aac6da4f16f4969ef4643eec443dcb1-X',
         tx_ref: Date.now(),
-        amount: (props.order.price * orderDetails.orderQuantity) + deliveryFee,
+        // amount: (props.order.price * orderDetails.orderQuantity) + deliveryFee,
+        amount: 10,
         currency: 'NGN',
         payment_options: 'card',
         customer: {
@@ -62,22 +65,36 @@ function Checkout(props) {
     const createOrder = async () => {
         const order = {
             ...orderDetails,
-            cashAmount: (props.order.price * orderDetails.orderQuantity) + deliveryFee
+            cashAmount: Math.round((props.order.price * orderDetails.orderQuantity) + deliveryFee)
         };
-        console.log(order)
-        // try {
-        //     const response = await axios.post(
-        //         `${process.env.REACT_APP_API_URL}/order`,
-        //         order,
-        //         { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
-        //     );
-        //     console.log(response);
-        // } catch (error) {
-        //     if (!error.response) {
-        //         return console.log('No internet')
-        //     }
-        //     console.log(error)
-        // }
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/order`,
+                order,
+                { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
+            );
+            if (response.status === 201) {
+                removeOrder(null, props.dispatch)
+            }
+        } catch (error) {
+            if (!error.response) {
+                return console.log('No internet')
+            }
+            console.log(error.response)
+        }
+    }
+
+    if (successfulPayment) {
+        return (
+            <div style={{ minHeight: '60vh' }} className={'d-flex justify-center align-center '}>
+                <div style={{ padding: '40px' }}  className={'container'}>
+                    <h3>Paid successfully!</h3>
+                    <Link to="/app">
+                        <PrimaryButton>Return to homepage</PrimaryButton>
+                    </Link>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -120,15 +137,16 @@ function Checkout(props) {
                         onClick={() => {
                             handleFlutterPayment({
                                 callback: (response) => {
-                                    console.log(response);
+                                    createOrder()
+                                    setSuccessfulPayment(true);
                                     closePaymentModal() // this will close the modal programmatically
                                 },
                                 onClose: () => {
                                     // Try to make a request to create the order here
-                                    console.log('Executed in onClose');
                                 },
                             });
                         }}
+                        // onClick={createOrder}
                         style={{ marginTop: '30px', width: '100%' }}>Order meal</PrimaryButton>
                     <SecondaryButton 
                         style={{ marginTop: '10px', width: '100%' }}
@@ -143,7 +161,9 @@ function Checkout(props) {
 
 const mapStateToProps = (state) => ({
     order: state.order,
-    user: state.user
+    user: state.user,
+    accessToken: state.accessToken
 })
 
 export default connect(mapStateToProps, null)(Checkout)
+

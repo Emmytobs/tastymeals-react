@@ -5,9 +5,13 @@ import styles from './RestaurantDetails.module.css';
 import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import restaurantImg from './restaurantImg.png'
+
 import Header from '../../../Utilities/Header/Header';
-import Container from '../../../Utilities/Container';
 import axios from 'axios';
+
+import email from './email.png'
+import telephone from './telephone.png'
+import location from './location.png'
 
 function RestaurantDetails(props) {
     const { restaurantId } = useParams();
@@ -59,19 +63,28 @@ function RestaurantDetails(props) {
         <Header {...props} />
         <div className={styles.restaurantDetailsContainer}>
             <div className={styles.banner}>
-                <img src={restaurantData.image} alt="Banner img" width="100%" height="100%" />
+                <img src={restaurantData.image || restaurantImg} alt="Banner img" width="100%" height="100%" />
                 <h3 className={styles.restaurantName}>{restaurantData.name}</h3>
                 <div className={styles.bannerOverlay}></div>
             </div>
-            <div className={'container '+ styles.details}>
-                    <h5>{restaurantData.firstname} {restaurantData.lastname}</h5>
+            <div className={'container '}>
+                    <div className={styles.location}>
+                        <img src={location} alt="Restaurant's location" width="30px" height="30px" />
+                        <br />
+                        <p>{restaurantData.address}</p>
+                        <span>{restaurantData.city} </span>
+                        <span>{restaurantData.country}</span>
+                    </div>
 
-                    <p>{restaurantData.address}</p>
-                    <span>{restaurantData.city}</span>
-                    <span>{restaurantData.country}</span>
-
-                    <p>call: {restaurantData.phone}</p>
-                    <p>email: {restaurantData.email}</p>
+                    <div className={styles.adminContact}>
+                        <h5>{restaurantData.firstname} {restaurantData.lastname}</h5>
+                        <a href={`tel: ${restaurantData.phone}`}>
+                            <img src={telephone} alt="Call restaurant" width="30px" height="30px" />
+                        </a>
+                        <a href={`mailto: ${restaurantData.email}`}>
+                            <img src={email} alt="Email restaurant" width="30px" height="30px" />
+                        </a>
+                    </div>
             </div>
             {/* <div> 
                 <h3>{restaurantData.name}</h3>

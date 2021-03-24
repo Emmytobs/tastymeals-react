@@ -13,9 +13,11 @@ import { Option, Select } from '../../../Utilities/Form/Form';
 
 function AddMeal(props) {
     const [formData, setFormData] = React.useState(null);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
  
     // const validationSchema = null;
     const submitForm = async (values) => {
+        setIsSubmitting(true)
         try {
             // const response = await axios.post(`${process.env.REACT_APP_CLOUDINARY_API_URL}`, formData)
             // console.log(process.env.REACT_APP_CLOUDINARY_API_URL)
@@ -35,14 +37,17 @@ function AddMeal(props) {
                     { headers: { 'Authorization': 'Bearer ' + props.accessToken } }
                 );
                 if(response.status === 201) {
+                    setIsSubmitting(false)
                     const newMeal = response.data.data;
-                    saveMeals(newMeal, 'ADMIN', props.dispatch)
-                    console.log(response.data.message)
+                    props.addNewMeal(newMeal)
                 }
             } catch (error) {
+                setIsSubmitting(false)
+                console.log(error)
                 console.log(error.response)
             }
         } catch (error) {
+            setIsSubmitting(false)
             if (!error.response) {
                 console.log('No internet')
             }
@@ -59,11 +64,10 @@ function AddMeal(props) {
     }
 
     return (
-        <div className={styles.addMealContainer}>
+        <div style={{ opacity: isSubmitting ? 0.7 : 1 }} className={styles.addMealContainer}>
             <Formik
                 initialValues={{  name: '', description: '', price: '', category: '' }}
                 onSubmit={(values) => {
-                    // console.log(values)
                     submitForm(values)
                 }}
             >
@@ -91,7 +95,7 @@ function AddMeal(props) {
                             onChange={handleChange} />
                         <Select 
                             name="category" 
-                            value={values.category} 
+                            value={values.categoryid} 
                             onChange={handleChange}
                             style={{ width: '100%' }}>
                             <Option>Choose Category</Option>

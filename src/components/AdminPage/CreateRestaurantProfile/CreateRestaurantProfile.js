@@ -61,7 +61,7 @@ function CreateRestaurantProfile(props) {
             <h3 className={styles.pageTitle}>Create your restaurant profile</h3>
             <div>
                 <Formik
-                    initialValues={{ name:'', address:'', city:'', country:'' }}
+                    initialValues={{ name:'', address:'', city:'', country:'', accountNumber: '', accountBank: '' }}
                     onSubmit={(values) => {
                         createRestaurant(values)
                     }}
@@ -95,6 +95,20 @@ function CreateRestaurantProfile(props) {
                                 placeholder="Country"
                                 onChange={handleChange}
                                 value={values.country}
+                            />
+                            <Input 
+                                type="number"
+                                name="accountNumber"
+                                placeholder="Account Number"
+                                onChange={handleChange}
+                                value={values.accountNumber}
+                            />
+                            <Input 
+                                type="text"
+                                name="accountBank"
+                                placeholder="Account Bank"
+                                onChange={handleChange}
+                                value={values.accountBank}
                             />
                             <p>
                                 Choose an banner image to be displayed when customers view your restaurant profile:

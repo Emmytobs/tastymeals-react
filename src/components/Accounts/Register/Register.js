@@ -9,6 +9,9 @@ import { PrimaryButton } from '../../../Utilities/Buttons'
 
 import { saveTokens } from '../../../redux/dispatchers'
 
+import styles from './Register.module.css'
+import { Link } from 'react-router-dom';
+
 function Register(props) {
     const [userType, setUserType] = useState('CUSTOMER');
 
@@ -50,64 +53,76 @@ function Register(props) {
     }
 
     return (
-        <div>
-            <h3>Register Account</h3>
-            <h5>What do you want to do?</h5>
-            <Formik
-                initialValues={initialValues}
-                validate={() => {}}
-                onSubmit={(values) => {
-                    registerUser(values)
-                }}
-            >
-                {({ errors, touched, values, handleChange, handleSubmit }) => (
-                    <Form width="300px" onSubmit={handleSubmit} noValidate>
-                        <div onChange={onChangeUserType}>
-                            <label for="buy">I want to buy <input type="radio" name="type" id="buy" onChange={handleChange} value="CUSTOMER" /></label>
-                            <label for="sell">I want to sell <input type="radio" name="type" id="sell" onChange={handleChange} value="RESTAURANT_ADMIN" /></label>
-                        </div>
-                        {
-                            userType === 'RESTAURANT_ADMIN' &&
-                            (
-                                <>
+        <div className={styles.registerContainer}>
+            <h2>Tasty <span className="text-highlight">Meals</span></h2>
+            <div className={'container '+ styles.formContainer}>
+                <h3>Register Account</h3>
+                <p>What do you want to do?</p>
+                <Formik
+                    initialValues={initialValues}
+                    validate={() => {}}
+                    onSubmit={(values) => {
+                        registerUser(values)
+                    }}
+                >
+                    {({ errors, touched, values, handleChange, handleSubmit }) => (
+                        <form onSubmit={handleSubmit} noValidate>
+                            <div className={styles.selectUserType} onChange={onChangeUserType}>
+                                <label for="buy">
+                                    I want to buy 
+                                    <input type="radio" name="type" id="buy" value="CUSTOMER" checked={userType === 'CUSTOMER'} />
+                                </label>
+                                <label for="sell">
+                                    I want to sell
+                                    <input type="radio" name="type" id="sell" onChange={handleChange} value="RESTAURANT_ADMIN" checked={userType === 'RESTAURANT_ADMIN'} />
+                                </label>
+                            </div>
+                            <div className={styles.inputs}>
+                                {
+                                    userType === 'RESTAURANT_ADMIN' &&
+                                    (
+                                        <>
+                                        <Input 
+                                            type="text" 
+                                            placeholder="First Name"
+                                            name="firstname" 
+                                            onChange={handleChange}
+                                            value={values.firstname} />
+                                        <Input 
+                                            type="text" 
+                                            placeholder="Last Name"
+                                            name="lastname" 
+                                            onChange={handleChange}
+                                            value={values.lastname} />
+                                        <Input 
+                                            type="number" 
+                                            placeholder="Phone Number"
+                                            name="phone" 
+                                            onChange={handleChange}
+                                            value={values.phone} />
+                                        </>
+                                    )
+                                }
                                 <Input 
-                                    type="text" 
-                                    placeholder="First Name"
-                                    name="firstname" 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    name="email" 
                                     onChange={handleChange}
-                                    value={values.firstname} />
+                                    value={values.email} />
                                 <Input 
-                                    type="text" 
-                                    placeholder="Last Name"
-                                    name="lastname" 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    name="password"
                                     onChange={handleChange}
-                                    value={values.lastname} />
-                                <Input 
-                                    type="number" 
-                                    placeholder="Phone Number"
-                                    name="phone" 
-                                    onChange={handleChange}
-                                    value={values.phone} />
-                                </>
-                            )
-                        }
-                        <Input 
-                            type="email" 
-                            placeholder="Email" 
-                            name="email" 
-                            onChange={handleChange}
-                            value={values.email} />
-                        <Input 
-                            type="password" 
-                            placeholder="Password" 
-                            name="password"
-                            onChange={handleChange}
-                            value={values.password} />
+                                    value={values.password} />
 
-                        <PrimaryButton type="submit">Create Account</PrimaryButton>
-                    </Form>
-                )}
-            </Formik>
+                                <PrimaryButton style={{ width: '100%' }} type="submit">Create Account</PrimaryButton>
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+                <p className={styles.login}>Already have an account? <Link to="/account/login" className="inline-link">Login</Link></p>
+            </div>
         </div>
     )
 }

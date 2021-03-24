@@ -9,16 +9,21 @@ import styles from './Notifications.module.css'
 import axios from 'axios'
 
 function Notifications(props) {
-    const [notificationData, setNotificationData] = useState([])
+    const [notificationData, setNotificationData] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     const fetchNotifications = async () => {
+        setIsSubmitting(true)
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/notification`, {
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
             if (response.status === 200 && response.data.data) {
                 setNotificationData(response.data.data)
+                setIsSubmitting(false)
             }
         } catch (error) {
+            setIsSubmitting(false)
             if (!error.response) {
                 console.log('No internet')
             }
@@ -57,7 +62,7 @@ function Notifications(props) {
     return (
         <>
           <Header {...props} />  
-          <div className={styles.notificationsContainer}>
+          <div style={{ opacity: isSubmitting ? 0.7 : 1 }} className={styles.notificationsContainer}>
             <div className={'container '+ styles.notificationsList}>
                 <h3>Your order notifications</h3>
                 {

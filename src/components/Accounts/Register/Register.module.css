@@ -1,0 +1,26 @@
+.registerContainer {
+    margin-bottom: 40px
+}
+.registerContainer > h2 {
+    text-align: center;
+    margin-top: 50px;
+}
+.formContainer {
+    margin: 50px auto 0;
+    width: 400px;
+    padding: 30px;
+}
+.formContainer > * {
+    width: 100%;
+    text-align: center
+}
+.selectUserType {
+    margin-top: 20px;
+}
+.selectUserType > label {
+    cursor: pointer;
+}
+
+.inputs > * {
+    margin-bottom: 20px;
+}

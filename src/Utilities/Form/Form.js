@@ -36,7 +36,7 @@ export function Select(props) {
 
 export function Option(props) {
     return (
-        <option className={styles.option}>
+        <option className={styles.option} {...props}>
             {props.children}
         </option>
     )

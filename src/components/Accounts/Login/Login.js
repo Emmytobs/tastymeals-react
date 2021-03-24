@@ -4,9 +4,12 @@ import { Formik } from 'formik';
 import axios from 'axios'
 // import * as Yup from 'yup';
 
-import { Form, Input } from '../../../Utilities/Form'
+import { Input } from '../../../Utilities/Form'
 import { PrimaryButton } from '../../../Utilities/Buttons'
 import { saveTokens } from '../../../redux/dispatchers'
+
+import styles from './Login.module.css'
+import { Link } from 'react-router-dom';
 
 function Login(props) {
     const initialValues = {
@@ -32,36 +35,40 @@ function Login(props) {
     }
 
     return (
-        <div>
-            <h3>Welcome Back</h3>
-            <h5>Lorem ipsum dolor sit amet.</h5>
-            <Formik
-                initialValues={initialValues}
-                validate={() => {}}
-                onSubmit={(values) => {
-                    loginUser(values)
-                    // console.log(values)
-                }}
-            >
-                {({ errors, touched, values, handleChange, handleSubmit }) => (
-                    <Form style={{ width: "300px" }} onSubmit={handleSubmit} noValidate>
-                        <Input 
-                            type="email" 
-                            placeholder="Email" 
-                            name="email" 
-                            onChange={handleChange}
-                            value={values.email} />
-                        <Input 
-                            type="password" 
-                            placeholder="Password" 
-                            name="password"
-                            onChange={handleChange}
-                            value={values.password} />
+        <div className={styles.loginContainer}>
+            <h2>Tasty <span className="text-highlight">Meals</span></h2>
+            <div className={'container ' + styles.formContainer}>
+                <h3>Welcome Back</h3>
+                <p>Please provide your registered email and password</p>
+                <Formik
+                    initialValues={initialValues}
+                    validate={() => {}}
+                    onSubmit={(values) => {
+                        loginUser(values)
+                        // console.log(values)
+                    }}
+                >
+                    {({ errors, touched, values, handleChange, handleSubmit }) => (
+                        <form onSubmit={handleSubmit} noValidate>
+                            <Input 
+                                type="email" 
+                                placeholder="Email" 
+                                name="email" 
+                                onChange={handleChange}
+                                value={values.email} />
+                            <Input 
+                                type="password" 
+                                placeholder="Password" 
+                                name="password"
+                                onChange={handleChange}
+                                value={values.password} />
 
-                        <PrimaryButton type="submit">Login</PrimaryButton>
-                    </Form>
-                )}
-            </Formik>
+                            <PrimaryButton type="submit">Login</PrimaryButton>
+                        </form>
+                    )}
+                </Formik>
+                <p className={styles.createAccount}>Don't have an account? <Link to="/account/register" className="inline-link">Create one</Link></p>
+            </div>
         </div>
     )
 }

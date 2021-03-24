@@ -11,12 +11,13 @@ import { Input } from '../../../Utilities/Form'
 
 import styles from './Meals.module.css'
 import axios from 'axios'
-import { saveMeals } from '../../../redux/dispatchers'
+import dayjs from 'dayjs'
+import { saveAdminRestaurantProfile, saveMeals } from '../../../redux/dispatchers'
 import { Option, Select, Textarea } from '../../../Utilities/Form/Form'
 
 
 function Meals(props) {
-    const [toggleOverlay, setToggleOverlay] = useState(false)
+    const [addMealModal, setAddMealModal] = useState(false)
     const [searchMealQuery, setSearchMealQuery] = useState('')
     const [viewMealModal, setViewMealModal] = useState(false)
 
@@ -81,6 +82,20 @@ function Meals(props) {
         setViewMealModal(false)
     }
 
+    const addNewMeal = (newMeal) => {
+        setMeals([ ...meals, {...newMeal} ])
+        setFilteredMeals([ ...meals, {...newMeal} ])
+        setAddMealModal(false)
+    }
+
+    const deleteMeal = (mealid) => {
+        const updatedMeals = meals.filter(meal => meal.mealid !== mealid)
+        console.log(updatedMeals)
+        setMeals(updatedMeals)
+        setFilteredMeals(updatedMeals)
+        setViewMealModal(false)
+    }
+
     return (
         <div className={styles.mealsContainer}>
             <h2 className={styles.pageTitle}>Meals</h2>
@@ -95,7 +110,7 @@ function Meals(props) {
                         <Option>categoryname</Option>
                     </Select>
                 </div>
-                <PrimaryButton onClick={() => setToggleOverlay(!toggleOverlay)}>Add meal</PrimaryButton>
+                <PrimaryButton onClick={() => setAddMealModal(true)}>Add meal</PrimaryButton>
             </div>
             <div className={styles.tableContainer}>
                 {/* <div className={styles.tabs}>
@@ -129,7 +144,11 @@ function Meals(props) {
                                         <TD>{meal.mealname}</TD>
                                         <TD>{meal.price}</TD>
                                         <TD className={styles.mealDescription}>{meal.description}</TD>
-                                        <TD>{meal.createdat}</TD>
+                                        <TD>
+                                            {
+                                                dayjs(meal.createdat).format('D MMM YY')
+                                            }
+                                        </TD>
                                         <TD>{meal.order_count}</TD>
                                         <TD>{meal.average_rating} ({meal.rating_count})</TD>
                                         <TD>{meal.categoryname}</TD>
@@ -142,21 +161,10 @@ function Meals(props) {
                     <h5>There are no meals to display</h5>
                 )}
             </div>
-            {!props.restaurantProfile.restaurantid &&
-                (
-                    <Overlay>
-                        <div>
-                            <h4>You have not created a restaurant profile yet.</h4>
-                            <Link to="/app/admin/create-restaurant-profile">
-                                <PrimaryButton>Create one</PrimaryButton>
-                            </Link>
-                        </div>
-                    </Overlay>
-                )
-            }
-            {toggleOverlay && 
-            <Overlay closeOverlayHandler={setToggleOverlay}>
-                <AddMeal />
+           
+            {addMealModal && 
+            <Overlay closeOverlayHandler={setAddMealModal}>
+                <AddMeal addNewMeal={addNewMeal} />
             </Overlay>}
             {
                 viewMealModal && 
@@ -164,14 +172,15 @@ function Meals(props) {
                     viewMealModal={viewMealModal} 
                     setViewMealModal={setViewMealModal} 
                     accessToken={props.accessToken}
-                    updateMeal={updateMeal} />
+                    updateMeal={updateMeal}
+                    deleteMeal={deleteMeal} />
             }
         <Sidenav />
         </div>
     )
 }
 
-const mapStateToProps = (state) => ({ accessToken: state.accessToken, meals: state.meals['ADMIN'], restaurantProfile: state.adminRestaurantProfile })
+const mapStateToProps = (state) => ({ accessToken: state.accessToken, restaurantProfile: state.adminRestaurantProfile })
 
 export default connect(mapStateToProps, null)(Meals);
 
@@ -183,6 +192,7 @@ function ViewMeal(props) {
         description: meal.description,
     });
     const [updatedMealData, setUpdatedMealData] = useState({})
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -191,6 +201,7 @@ function ViewMeal(props) {
     }
 
     const saveChanges = async () => {
+        setIsSubmitting(true)
         if (!Object.keys(updatedMealData).length) {
             return console.log('No field changed')
         }
@@ -201,10 +212,12 @@ function ViewMeal(props) {
                 { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
             );
             if (response.status === 200) {
+                setIsSubmitting(false)
                 const { data: updatedMeal } = response.data;
                 props.updateMeal(updatedMeal)
             }
         } catch (error) {
+            setIsSubmitting(false)
             if (!error.response) {
                 console.log('No internet')
             }
@@ -212,9 +225,25 @@ function ViewMeal(props) {
         }
     }
 
+    const deleteMeal = async () => {
+        setIsSubmitting(true)
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/meal/${meal.mealid}`,{
+                headers: { 'Authorization': 'Bearer '+ props.accessToken }
+            })
+            if (response.status === 200) {
+                setIsSubmitting(false)
+                props.deleteMeal(meal.mealid)
+            }
+        } catch (error) {
+            setIsSubmitting(false)
+            console.log(error)
+        }
+    }
+
     return (
         <Overlay closeOverlayHandler={props.setViewMealModal} targetId='targetToCloseModal'>
-            <div className={'container '+ styles.viewMealModal}>
+            <div style={{ opacity: isSubmitting ? 0.7 : 1 }} className={'container '+ styles.viewMealModal}>
                 <div className={'d-flex justify-between align-start '}>
                     <div>
                         <img src={meal.mealimage} alt="Your meal" width="250px" height="auto" />
@@ -251,9 +280,12 @@ function ViewMeal(props) {
                         </div>
                     </div>
                 </div>
-                <div className={'d-flex justify-end align-center '+ styles.ctaButtons}>
-                    <SecondaryButton id="targetToCloseModal">Cancel</SecondaryButton>
-                    <PrimaryButton onClick={saveChanges}>Save</PrimaryButton>
+                <div style={{ marginTop: '30px' }} className={'d-flex justify-between align-center'}>
+                    <PrimaryButton onClick={deleteMeal}>Delete meal</PrimaryButton>
+                    <div className={styles.ctaButtons}>
+                        <SecondaryButton id="targetToCloseModal">Cancel</SecondaryButton>
+                        <PrimaryButton onClick={saveChanges}>Save</PrimaryButton>
+                    </div>
                 </div>
             </div>
         </Overlay>

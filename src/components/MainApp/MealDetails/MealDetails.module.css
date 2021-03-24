@@ -1,6 +1,7 @@
 .mealDetailsWrapper{
     padding: 30px;
     margin: 70px 0;
+    min-height: 100vh;
 }
 
 .mealDetailsContainer {
@@ -39,16 +40,16 @@
 
 
 .moreContent {
-    /* background: var(--container);
-    transition: var(--color-mode-transition); */
     padding: 20px;
     border-radius: 5px;
-    height: 500px;
 }
 .ownReviewContainer,
 .currentUserReview {
     width: 70%;
     margin: 30px auto 0;
+}
+.currentUserReview > * {
+    text-align: center
 }
 .reviewForm {
     width: 70%;

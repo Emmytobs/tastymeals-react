@@ -123,6 +123,7 @@ function Homepage(props) {
                                 averageRating={meal.average_rating}
                                 ratingCount={meal.rating_count}
                                 restaurantName={meal.name}
+                                restaurantId={meal.restaurantid}
                                 price={meal.price}
                                 details={meal.description}
                             />

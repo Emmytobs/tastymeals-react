@@ -34,6 +34,19 @@
     object-position: center;
 }
 
+.location {
+    margin-top: 10px;
+}
+.adminContact {
+    margin-top: 20px;
+}
+.adminContact > h5 {
+    margin-bottom: 10px;
+}
+.adminContact > a:last-child {
+    margin-left: 10px;
+}
+
 .rating > * {
     display: inline-block;
     margin-left: 10px;
