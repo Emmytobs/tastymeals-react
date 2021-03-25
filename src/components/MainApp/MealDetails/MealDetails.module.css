@@ -55,6 +55,16 @@
     width: 70%;
     margin: 20px auto;
 }
+.reviewForm > .ratingSelect {
+    margin-bottom: 15px;
+}
+.reviewForm > .ratingSelect > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.reviewForm > .ratingSelect > select {
+    margin-left: 15px;
+}
 .reviewForm > button {
     margin-top: 20px;
 }

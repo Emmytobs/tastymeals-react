@@ -96,6 +96,7 @@ function Explore(props) {
                             averageRating={meal.average_rating}
                             ratingCount={meal.rating_count}
                             restaurantName={meal.name}
+                            restaurantId={meal.restaurantid}
                             price={meal.price}
                             details={meal.description}
                         />
@@ -148,9 +149,9 @@ function ExploreNav(props) {
                         id="top-rated" 
                         name="filter" 
                         type="radio"
-                        value="?order_by=rated_count:desc"
+                        value="?order_by=rating_count:desc"
                         data-filter-name="Top rated"
-                        checked={radioValue === '?order_by=rated_count:desc'}
+                        checked={radioValue === '?order_by=rating_count:desc'}
                         onChange={handleFilterChange}/>
                     <label htmlFor="top-rated">Top rated</label>
                 </div>
