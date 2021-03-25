@@ -8,6 +8,7 @@ import { saveFoodCategories, saveMeals } from '../../../redux/dispatchers'
 import MealCard from '../../../Utilities/MealCard/MealCard';
 
 import styles from './Homepage.module.css';
+import { Link } from 'react-router-dom';
 
 function Homepage(props) {
     const fetchFoodCategories = async () => {
@@ -82,7 +83,7 @@ function Homepage(props) {
 
             <section className={styles.section}>
                 <div className={styles.sectionTitle}>
-                    <h2>Most popular</h2> <span>|</span> <span className='inline-link'>View all</span>
+                    <h2>Most popular</h2> <span>|</span> <Link to="/app/explore?order_by=order_count:desc" className='inline-link'>View all</Link>
                 </div>
 
                 <div className={styles.mealWrapper}>
@@ -109,7 +110,7 @@ function Homepage(props) {
 
             <section className={styles.section}>
                 <div className={styles.sectionTitle}>
-                    <h2>Top Rated</h2> <span>|</span> <span className='inline-link'>View all</span>
+                    <h2>Top Rated</h2> <span>|</span> <Link to="/app/explore?order_by=rated_count:desc" className='inline-link'>View all</Link>
                 </div>
                 
                 <div className={styles.mealWrapper}>

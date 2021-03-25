@@ -192,9 +192,9 @@ function Header(props) {
                                 <li>
                                     <Link to="/app/explore">Explore</Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link to="/app/favorites">Favorites</Link>
-                                </li>
+                                </li> */}
                                 <li>
                                     <Link to="/app/notifications">Notifications</Link>
                                 </li>

@@ -10,7 +10,7 @@ import Header from '../../../Utilities/Header/Header'
 import Container from '../../../Utilities/Container'
 import axios from 'axios'
 import Footer from '../../../Utilities/Footer'
-import { Textarea } from '../../../Utilities/Form/Form'
+import { Option, Select, Textarea } from '../../../Utilities/Form/Form'
 import MealCard from '../../../Utilities/MealCard/MealCard'
 import Overlay from '../../../Utilities/Overlay'
 
@@ -23,7 +23,9 @@ function MealDetails(props) {
     const [message, setMessage] = useState('')
     const [replaceOrderModal, setReplaceOrderModal] = useState(false);
     const [orderExistsModal, setOrderExistsModal] = useState(false);
-
+    
+    const [createdRating, setCreatedRating] = useState({ rating: 1, review: '' });
+    
     const [activeTab, setActiveTab] = useState('reviews');
     const toggleActiveTab = (e) => {
         const name = e.target.getAttribute('name');
@@ -63,11 +65,39 @@ function MealDetails(props) {
         }
     }
 
+    const handleRatingChange = (e) => {
+        const {name, value} = e.target;
+        setCreatedRating({ ...createdRating, [name]: value })
+    }
+    const submitRating = async (e) => {
+        e.preventDefault()
+        try {
+            const rating = {
+                rating: createdRating.rating,
+                review: createdRating.review,
+                mealId: meal.mealid
+            }
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/rating/meal`,
+                rating,
+                { headers: { 'Authorization': 'Bearer '+ props.accessToken } }
+            )
+            if (response.status === 201) {
+                fetchReviews();
+                fetchLoggedInUserReview();
+                setUserCanReviewMeal(false);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const fetchMeal = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/meal/${mealId}`, { 
                 headers: { 'Authorization': 'Bearer '+ props.accessToken }
             });
+            console.log(response)
             if (response.status === 200) {
                 return setMeal(response.data.data);
             }
@@ -147,9 +177,9 @@ function MealDetails(props) {
                 <div className={styles.mealDetails}>
                     <h5>{meal.mealname}</h5>
                     <Link to={`/app/restaurant/${meal.restaurantid}`} className="inline-link">{meal.name}</Link>
-                    <div className={styles.mealRating}>
+                    {/* <div className={styles.mealRating}>
                         <span className={styles.averageRating}>{meal.average_rating} ({meal.rating_count})</span>
-                    </div>
+                    </div> */}
                     <p>{meal.description}</p>
                     <div className={'d-flex justify-between align-center ' + styles.price_addToCart}>
                         <h5>{meal.price}</h5>
@@ -191,9 +221,19 @@ function MealDetails(props) {
                                     {message && <p style={{ textAlign: 'center', marginTop: '20px' }}>{message}</p>}
                                     
                                     {userCanReviewMeal &&
-                                    <form className={styles.reviewForm}>
-                                        <Textarea placeholder="Write a review" />
-                                        <PrimaryButton>Submit</PrimaryButton>
+                                    <form onSubmit={submitRating} className={styles.reviewForm}>
+                                        <div className={styles.ratingSelect}>
+                                            <p>Rating:</p>
+                                            <Select name="rating" value={createdRating.rating} onChange={handleRatingChange}>
+                                                <Option>1</Option>
+                                                <Option>2</Option>
+                                                <Option>3</Option>
+                                                <Option>4</Option>
+                                                <Option>5</Option>
+                                            </Select>
+                                        </div>
+                                        <Textarea name="review" value={createdRating.review} onChange={handleRatingChange} placeholder="Write a review" />
+                                        <PrimaryButton type="submit" >Submit</PrimaryButton>
                                     </form>}
                                     {reviewByUser && 
                                     <div className={styles.currentUserReview}>
